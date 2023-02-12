@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
+import com.example.myapplication.adapter.RestoranAdapter
+import com.example.myapplication.data.RestoranDatasource
 import com.example.myapplication.databinding.FragmentRestoranBinding
 
 class RestoranFragment : Fragment() {
@@ -22,16 +26,22 @@ class RestoranFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(RestoranViewModel::class.java)
+//        val dashboardViewModel =
+//            ViewModelProvider(this).get(RestoranViewModel::class.java)
 
         _binding = FragmentRestoranBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        // Test data
+        val myDataset = RestoranDatasource().loadRestorans()
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.restoran_recycler_view)
+        recyclerView?.adapter = RestoranAdapter(myDataset)
+        recyclerView?.setHasFixedSize(true)
+
+//        val textView: TextView = binding.textDashboard
+//        dashboardViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
         return root
     }
 
