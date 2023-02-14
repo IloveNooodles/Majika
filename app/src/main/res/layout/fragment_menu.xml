@@ -10,16 +10,16 @@
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="25dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="25dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/background">
 
     </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="12dp"

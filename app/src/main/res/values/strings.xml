@@ -5,4 +5,5 @@
     <string name="title_menu">Menu</string>
     <string name="title_keranjang">Keranjang</string>
     <string name="maps">Maps</string>
+    <string name="placeholder">Placeholder</string>
 </resources>
