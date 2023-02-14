@@ -9,7 +9,8 @@
     <item
         android:id="@+id/navigation_restoran"
         android:icon="@drawable/location_24px"
-        android:title="@string/title_restoran" />
+        android:title="@string/title_restoran"
+        />
 
     <item
         android:id="@+id/navigation_menu"
@@ -20,5 +21,4 @@
         android:id="@+id/navigation_keranjang"
         android:icon="@drawable/shopping_cart_24px"
         android:title="@string/title_keranjang" />
-
 </menu>
