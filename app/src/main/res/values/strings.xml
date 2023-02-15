@@ -6,4 +6,6 @@
     <string name="title_keranjang">Keranjang</string>
     <string name="maps">Maps</string>
     <string name="placeholder">Placeholder</string>
+    <string name="menu_food_header">Food</string>
+    <string name="menu_drinks_header">Drinks</string>
 </resources>
