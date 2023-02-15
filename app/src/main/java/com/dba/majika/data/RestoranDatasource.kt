@@ -1,6 +1,6 @@
-package com.example.myapplication.data
+package com.dba.majika.data
 
-import com.example.myapplication.models.Restaurant
+import com.dba.majika.models.Restaurant
 
 class RestoranDatasource {
     fun loadRestorans(): List<Restaurant> {

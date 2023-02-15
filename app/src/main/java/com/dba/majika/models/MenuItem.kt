@@ -1,4 +1,4 @@
-package com.example.myapplication.models
+package com.dba.majika.models
 
 data class MenuItem(
     val name: String,

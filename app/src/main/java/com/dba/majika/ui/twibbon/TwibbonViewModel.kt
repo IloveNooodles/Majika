@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.twibbon
+package com.dba.majika.ui.twibbon
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

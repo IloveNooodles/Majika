@@ -1,12 +1,10 @@
-package com.example.myapplication.adapters
+package com.dba.majika.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
-import com.example.myapplication.databinding.ListRestoranBinding
-import com.example.myapplication.models.Restaurant
+import com.dba.majika.databinding.ListRestoranBinding
+import com.dba.majika.models.Restaurant
 
 class RestaurantAdapter(
     private val restaurantData: List<Restaurant>

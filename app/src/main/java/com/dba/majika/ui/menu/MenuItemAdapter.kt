@@ -1,15 +1,15 @@
-package com.example.myapplication.ui.menu
+package com.dba.majika.ui.menu
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
-import com.example.myapplication.models.MenuItem
+import com.dba.majika.R
+import com.dba.majika.models.MenuItem
 
 class MenuItemAdapter (private val list:List<MenuItem>): RecyclerView.Adapter<MenuItemAdapter.Holder>(){
-    class Holder(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class Holder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val menuItemName: TextView = itemView.findViewById(R.id.menu_item_name)
         private val menuItemPrice: TextView = itemView.findViewById(R.id.menu_item_price)
         private val menuItemSold: TextView = itemView.findViewById(R.id.menu_item_sold)

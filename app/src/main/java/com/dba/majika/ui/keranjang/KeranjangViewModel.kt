@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.keranjang
+package com.dba.majika.ui.keranjang
 
 import androidx.lifecycle.ViewModel
 

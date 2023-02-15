@@ -1,6 +1,6 @@
-package com.example.myapplication.data
+package com.dba.majika.data
 
-import com.example.myapplication.models.MenuItem
+import com.dba.majika.models.MenuItem
 class MenuDataSource {
     fun loadMenu(): List<MenuItem> {
         return listOf<MenuItem>(
