@@ -32,7 +32,7 @@ class MenuFragment : Fragment() {
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val recyclerView: RecyclerView = root.findViewById(R.id.menu_recycler_view)
+        val recyclerView = binding.menuRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MenuItemAdapter(MenuDataSource().loadMenu())
         return root
