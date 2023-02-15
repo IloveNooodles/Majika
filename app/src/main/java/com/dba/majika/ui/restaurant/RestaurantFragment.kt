@@ -24,12 +24,12 @@ class RestaurantFragment : Fragment() {
     ): View {
         _binding = FragmentRestaurantBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        
+
         val myDataset = RestaurantDatasource().loadRestaurants()
         val recyclerView = binding.restaurantRecyclerView
-        recyclerView?.adapter = RestaurantAdapter(myDataset)
+        recyclerView?.adapter = RestaurantAdapter(requireContext(), myDataset)
         recyclerView?.setHasFixedSize(true)
-        
+
         return root
     }
 
