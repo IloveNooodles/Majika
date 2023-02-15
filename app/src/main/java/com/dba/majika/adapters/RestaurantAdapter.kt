@@ -26,7 +26,8 @@ class RestaurantAdapter(
     }
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
-        holder.bind(restaurantData[position])
+        val item = restaurantData[position]
+        holder.bind(item)
         // TODO: Add map button intent
     }
 
