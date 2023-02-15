@@ -3,14 +3,14 @@ package com.dba.majika.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dba.majika.databinding.ListRestoranBinding
+import com.dba.majika.databinding.ListRestaurantBinding
 import com.dba.majika.models.Restaurant
 
 class RestaurantAdapter(
     private val restaurantData: List<Restaurant>
 ) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
     
-    inner class RestaurantViewHolder(private val binding: ListRestoranBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RestaurantViewHolder(private val binding: ListRestaurantBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(restaurantData: Restaurant) {
             with(binding){
                 restoAddress.text = restaurantData.address
@@ -21,7 +21,7 @@ class RestaurantAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestaurantViewHolder {
-        val adapterLayout =  ListRestoranBinding.inflate(LayoutInflater.from(parent.context) ,parent, false)
+        val adapterLayout =  ListRestaurantBinding.inflate(LayoutInflater.from(parent.context) ,parent, false)
         return RestaurantViewHolder(adapterLayout)
     }
 

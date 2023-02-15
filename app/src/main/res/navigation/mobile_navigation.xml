@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_twibbon" />
 
     <fragment
-        android:id="@+id/navigation_restoran"
-        android:name="com.dba.majika.ui.restoran.RestoranFragment"
-        android:label="@string/title_restoran"
-        tools:layout="@layout/fragment_restoran" />
+        android:id="@+id/navigation_restaurant"
+        android:name="com.dba.majika.ui.restaurant.RestaurantFragment"
+        android:label="@string/title_restaurant"
+        tools:layout="@layout/fragment_restaurant" />
 
     <fragment
         android:id="@+id/navigation_menu"

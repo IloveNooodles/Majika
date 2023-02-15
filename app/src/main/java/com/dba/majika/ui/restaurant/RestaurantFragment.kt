@@ -1,4 +1,4 @@
-package com.dba.majika.ui.restoran
+package com.dba.majika.ui.restaurant
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.dba.majika.adapters.RestaurantAdapter
-import com.dba.majika.data.RestoranDatasource
-import com.dba.majika.databinding.FragmentRestoranBinding
+import com.dba.majika.data.RestaurantDatasource
+import com.dba.majika.databinding.FragmentRestaurantBinding
 
-class RestoranFragment : Fragment() {
+class RestaurantFragment : Fragment() {
 
-    private var _binding: FragmentRestoranBinding? = null
+    private var _binding: FragmentRestaurantBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,11 +22,11 @@ class RestoranFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRestoranBinding.inflate(inflater, container, false)
+        _binding = FragmentRestaurantBinding.inflate(inflater, container, false)
         val root: View = binding.root
         
-        val myDataset = RestoranDatasource().loadRestorans()
-        val recyclerView = binding.restoranRecyclerView
+        val myDataset = RestaurantDatasource().loadRestaurants()
+        val recyclerView = binding.restaurantRecyclerView
         recyclerView?.adapter = RestaurantAdapter(myDataset)
         recyclerView?.setHasFixedSize(true)
         

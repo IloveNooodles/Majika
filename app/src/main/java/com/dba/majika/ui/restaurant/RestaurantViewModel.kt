@@ -1,10 +1,10 @@
-package com.dba.majika.ui.restoran
+package com.dba.majika.ui.restaurant
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class RestoranViewModel : ViewModel() {
+class RestaurantViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

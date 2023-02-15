@@ -7,9 +7,9 @@
         android:title="@string/title_twibbon" />
 
     <item
-        android:id="@+id/navigation_restoran"
+        android:id="@+id/navigation_restaurant"
         android:icon="@drawable/location_24px"
-        android:title="@string/title_restoran"
+        android:title="@string/title_restaurant"
         />
 
     <item

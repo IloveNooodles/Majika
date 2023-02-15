@@ -2,8 +2,8 @@ package com.dba.majika.data
 
 import com.dba.majika.models.Restaurant
 
-class RestoranDatasource {
-    fun loadRestorans(): List<Restaurant> {
+class RestaurantDatasource {
+    fun loadRestaurants(): List<Restaurant> {
         return listOf<Restaurant>(
             Restaurant("Cabang 1", "Alamat 1", "NoTelp 1", 0),
             Restaurant("Cabang 2", "Alamat 2", "NoTelp 2", 0),

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_twibbon,
-                R.id.navigation_restoran,
+                R.id.navigation_restaurant,
                 R.id.navigation_menu,
                 R.id.navigation_keranjang
             )
