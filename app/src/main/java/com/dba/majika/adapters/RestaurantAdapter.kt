@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dba.majika.databinding.ListRestaurantBinding
-import com.dba.majika.models.Restaurant
+import com.dba.majika.models.restaurant.Restaurant
 
 class RestaurantAdapter(
     private val context: Context,
@@ -21,18 +21,16 @@ class RestaurantAdapter(
                 restoAddress.text = restaurantData.address
                 restoPhone.text = restaurantData.phone
                 restoTitle.text = restaurantData.name
-                mapsButton.setTag(
-                    String.format(
-                        "geo:0,0?z=15&?q=%s,%s(%s)",
-                        restaurantData.latitude.toBigDecimal().toPlainString(),
-                        restaurantData.longitude.toBigDecimal().toPlainString(),
-                        restoTitle.text     // Label not working, don't know why
-                    )
+                mapsButton.tag = String.format(
+                    "geo:%s,%s?z=15(%s)",
+                    restaurantData.latitude.toBigDecimal().toPlainString(),
+                    restaurantData.longitude.toBigDecimal().toPlainString(),
+                    restoTitle.text     // Label not working, don't know why
                 )
 
                 mapsButton.setOnClickListener() {
                     val gmmIntentUri =
-                        Uri.parse(mapsButton.getTag() as String?)
+                        Uri.parse(mapsButton.tag as String?)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                     mapIntent.setPackage("com.google.android.apps.maps")
                     context.startActivity(mapIntent)
