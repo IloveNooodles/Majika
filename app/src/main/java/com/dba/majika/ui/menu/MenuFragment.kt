@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dba.majika.R
+import com.dba.majika.adapters.MenuItemAdapter
 import com.dba.majika.data.MenuDataSource
 import com.dba.majika.databinding.FragmentMenuBinding
 

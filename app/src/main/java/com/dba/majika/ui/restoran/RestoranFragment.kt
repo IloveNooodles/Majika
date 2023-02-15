@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.dba.majika.R
 import com.dba.majika.adapters.RestaurantAdapter
 import com.dba.majika.data.RestoranDatasource
 import com.dba.majika.databinding.FragmentRestoranBinding

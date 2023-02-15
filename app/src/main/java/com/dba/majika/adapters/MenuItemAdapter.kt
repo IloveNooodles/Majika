@@ -1,4 +1,4 @@
-package com.dba.majika.ui.menu
+package com.dba.majika.adapters
 
 import android.view.LayoutInflater
 import android.view.View
