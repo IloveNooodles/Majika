@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.model.MenuItem
+import com.example.myapplication.models.MenuItem
 
 class MenuItemAdapter (private val list:List<MenuItem>): RecyclerView.Adapter<MenuItemAdapter.Holder>(){
     class Holder(private val view: View) : RecyclerView.ViewHolder(view) {

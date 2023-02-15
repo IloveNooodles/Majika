@@ -1,6 +1,6 @@
 package com.example.myapplication.data
 
-import com.example.myapplication.model.MenuItem
+import com.example.myapplication.models.MenuItem
 class MenuDataSource {
     fun loadMenu(): List<MenuItem> {
         return listOf<MenuItem>(
