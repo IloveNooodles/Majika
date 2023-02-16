@@ -9,24 +9,23 @@ data class MenuListResponse(
     @SerializedName("size")
     val size: Int
 )
+
 fun MenuListResponse.asDomainModel(): List<MenuListItem> {
     val ret = mutableListOf<MenuListItem>()
     Log.d("menu", data.toString())
     // adding food
     val foodHeader = MenuHeaderItem("Food")
     ret.add(foodHeader)
-    for(item in data){
+    for (item in data) {
         if (item.type == "Food") ret.add(item)
     }
     // adding drinks
     val drinksHeader = MenuHeaderItem("Drinks")
     ret.add(drinksHeader)
-    for(item in data){
+    for (item in data) {
         if (item.type == "Drink") ret.add(item)
     }
-    val list = Collections.unmodifiableList(ret)
-    Log.d("menu Done", list.toString())
-    return list
+    return Collections.unmodifiableList(ret)
 }
 
 fun MenuListResponse.asDatabaseModel(): List<MenuDatabaseEntity> {
