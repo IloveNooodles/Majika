@@ -1,9 +1,11 @@
 package com.dba.majika.ui.menu
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +53,27 @@ class MenuFragment : Fragment() {
                 (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
             }
         })
+
+        val searchView = binding.searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("SearchView", "submit")
+                if (query != null) {
+                    viewModel.filter = query
+                    viewModel.refreshData()
+                }
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null && newText.length == 0){
+                    viewModel.filter = newText
+                    viewModel.refreshData()
+                }
+                Log.d("SearchView", "change")
+                return false
+            }
+        })
     }
 
     override fun onStop(){
@@ -61,5 +84,8 @@ class MenuFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    private fun updateMenu(){
+
     }
 }

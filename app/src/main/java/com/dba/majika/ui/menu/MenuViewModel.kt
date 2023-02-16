@@ -13,12 +13,18 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = MenuRepository(getDatabase(application))
 
-    val menu = repository.menu
+    var filter = ""
+    val menu = repository.menu.map{ item ->
+        item.filter{
+            it is MenuHeaderItem ||
+                    (it is MenuItem && filter in it.name)
+        }
+    }
     init {
         refreshData()
     }
 
-    private fun refreshData() = viewModelScope.launch {
+    fun refreshData() = viewModelScope.launch {
         try {
             repository.refreshMenu()
             Log.d("viewModel", "menu successful")
