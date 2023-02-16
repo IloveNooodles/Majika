@@ -1,6 +1,6 @@
 package com.dba.majika.models.menu
 
-class MenuHeaderItem(
+data class MenuHeaderItem(
     val name: String
 ) : MenuListItem() {
     override fun getType(): Int {

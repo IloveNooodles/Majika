@@ -9,7 +9,12 @@ import com.dba.majika.models.menu.MenuHeaderItem
 import com.dba.majika.models.menu.MenuItem
 import com.dba.majika.models.menu.MenuListItem
 
-class MenuItemAdapter (private val list:List<MenuListItem>): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class MenuItemAdapter (): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    var list: List<MenuListItem> = emptyList()
+    set(value){
+        field = value
+        notifyDataSetChanged()
+    }
     inner class MenuItemViewHolder(private val binding: ListMenuBinding) : RecyclerView.ViewHolder(binding.root) {
 
         private var currentItem: MenuItem? = null
@@ -53,7 +58,10 @@ class MenuItemAdapter (private val list:List<MenuListItem>): RecyclerView.Adapte
         return list.size
     }
     override fun getItemViewType(position: Int): Int {
-        return list[position].getType()
+        val item = list[position]
+        if (item is MenuItem) return 1
+        else if (item is MenuHeaderItem) return 0
+        return -1
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

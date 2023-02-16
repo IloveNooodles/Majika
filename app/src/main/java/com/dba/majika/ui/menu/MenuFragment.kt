@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.dba.majika.R
 import com.dba.majika.adapters.MenuItemAdapter
-import com.dba.majika.data.MenuDataSource
 import com.dba.majika.databinding.FragmentMenuBinding
+import com.dba.majika.models.menu.MenuListItem
 
 class MenuFragment : Fragment() {
 
@@ -21,12 +20,20 @@ class MenuFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val viewModel: MenuViewModel by lazy {
+        val activity = requireNotNull(this.activity) {
+            "You can only access the viewModel after onActivityCreated()"
+        }
+        ViewModelProvider(this, MenuViewModel.Factory(activity.application))
+            .get(MenuViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
+        val viewModel =
             ViewModelProvider(this).get(MenuViewModel::class.java)
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
@@ -34,7 +41,17 @@ class MenuFragment : Fragment() {
 
         val recyclerView = binding.menuRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MenuItemAdapter(MenuDataSource().loadMenu())
+        recyclerView.adapter = MenuItemAdapter()
+        /*
+        viewModel.menu.observe(viewLifecycleOwner) { item ->
+            (recyclerView.adapter as MenuItemAdapter).list = item
+        }
+        */
+        viewModel.menu.observe(viewLifecycleOwner, Observer<List<MenuListItem>> { item ->
+            item?.apply {
+                (recyclerView.adapter as MenuItemAdapter).list = item
+            }
+        })
         return root
     }
 
