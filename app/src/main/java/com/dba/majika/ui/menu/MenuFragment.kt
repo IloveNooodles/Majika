@@ -55,11 +55,7 @@ class MenuFragment : Fragment() {
 
     override fun onStop(){
         super.onStop()
-        viewModel.menu.removeObserver(Observer<List<MenuListItem>> { item ->
-            item?.apply {
-                (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
-            }
-        })
+        viewModel.menu.removeObservers(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {
