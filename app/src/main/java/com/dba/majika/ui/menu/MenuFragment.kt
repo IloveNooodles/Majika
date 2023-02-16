@@ -33,8 +33,6 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val viewModel =
-            ViewModelProvider(this).get(MenuViewModel::class.java)
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -42,17 +40,26 @@ class MenuFragment : Fragment() {
         val recyclerView = binding.menuRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MenuItemAdapter()
-        /*
-        viewModel.menu.observe(viewLifecycleOwner) { item ->
-            (recyclerView.adapter as MenuItemAdapter).list = item
-        }
-        */
+
+        return root
+    }
+
+    override fun onStart() {
+        super.onStart()
         viewModel.menu.observe(viewLifecycleOwner, Observer<List<MenuListItem>> { item ->
             item?.apply {
-                (recyclerView.adapter as MenuItemAdapter).list = item
+                (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
             }
         })
-        return root
+    }
+
+    override fun onStop(){
+        super.onStop()
+        viewModel.menu.removeObserver(Observer<List<MenuListItem>> { item ->
+            item?.apply {
+                (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
+            }
+        })
     }
 
     override fun onDestroyView() {
