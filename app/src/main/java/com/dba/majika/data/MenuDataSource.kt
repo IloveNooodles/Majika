@@ -15,22 +15,4 @@ class MenuDataSource {
             MenuItem("Omurice", 12000, 2324, "Oishiku Naaareee", "Drink")
         )
     }
-    /*
-    fun loadMenuAPI(): List<MenuListItem> {
-        var result = emptyList<MenuListItem>()
-        val menuResult = RetrofitClient.api.getMenu().enqueue(
-            object : Callback<MenuListResponse> {
-                override fun onFailure(call: Call<MenuListResponse>, t: Throwable) {
-                    Log.d("retrofit", "restaurant error")
-                }
-                override fun onResponse(call: Call<MenuListResponse>, response: Response<MenuListResponse>) {
-                    Log.d("retrofit", "restaurant successful")
-                    result = response.body().asDomainModel()
-                }
-            }
-        )
-        Log.d("viewModel", "menu successful")
-        return result
-    }
-    */
 }
