@@ -47,5 +47,4 @@ class MenuRepository(private val database: MajikaDatabase) {
             }
         )
     }
-    suspend fun updateMenu(){}
 }
