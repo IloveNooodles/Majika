@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import com.dba.majika.adapters.RestaurantAdapter
 import com.dba.majika.data.RestaurantDatasource
 import com.dba.majika.databinding.FragmentRestaurantBinding
+import com.dba.majika.models.restaurant.Restaurant
 
-class RestaurantFragment : Fragment() {
+class RestaurantFragment : Fragment(), RestaurantListener {
 
     private var _binding: FragmentRestaurantBinding? = null
 
@@ -24,11 +25,7 @@ class RestaurantFragment : Fragment() {
     ): View {
         _binding = FragmentRestaurantBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val myDataset = RestaurantDatasource().loadRestaurants()
-        val recyclerView = binding.restaurantRecyclerView
-        recyclerView?.adapter = RestaurantAdapter(requireContext(), myDataset)
-        recyclerView?.setHasFixedSize(true)
+        RestaurantDatasource().loadRestaurants(this)
 
         return root
     }
@@ -36,5 +33,11 @@ class RestaurantFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDataLoad(restaurants: List<Restaurant>) {
+        val recyclerView = binding.restaurantRecyclerView
+        recyclerView.adapter = RestaurantAdapter(requireContext(), restaurants)
+        recyclerView.setHasFixedSize(true)
     }
 }
