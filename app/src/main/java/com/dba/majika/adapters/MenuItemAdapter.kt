@@ -24,8 +24,8 @@ class MenuItemAdapter (): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                 currentItem = item
     
                 menuItemName.text = item.name
-                menuItemPrice.text = item.price.toString()
-                menuItemSold.text = item.sold.toString()
+                menuItemPrice.text = "Rp." + item.price.toString()
+                menuItemSold.text = "Sold: " + item.sold.toString()
                 menuItemDescription.text = item.desc
             }
         }

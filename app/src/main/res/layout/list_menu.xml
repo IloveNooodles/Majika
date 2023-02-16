@@ -24,10 +24,10 @@
             <TextView
                 android:id="@+id/menu_item_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="6dp"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="@string/title_menu" />
 
@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="2dp"
+                android:textSize="16sp"
                 android:textColor="@color/white"
                 tools:text="@string/placeholder" />
 
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="2dp"
+                android:textSize="16sp"
                 android:textColor="@color/white"
                 tools:text="@string/placeholder" />
 
@@ -55,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="18dp"
+                android:textSize="12sp"
                 android:textColor="@color/white"
                 tools:text="@string/placeholder" />
 

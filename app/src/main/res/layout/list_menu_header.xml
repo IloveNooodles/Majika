@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:paddingLeft = "16dp"
-    android:layout_height="wrap_content">
+    android:layout_height="48dp">
 
     <TextView
         android:id="@+id/menu_item_title_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:text="@string/placeholder" />
 </LinearLayout>
