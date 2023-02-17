@@ -39,6 +39,7 @@ class MenuRepository(private val database: MajikaDatabase) {
                     runBlocking {
                         launch {
                             withContext(Dispatchers.IO) {
+                                database.menuDao.deleteAll()
                                 database.menuDao.insertAll((response.body().asDatabaseModel()))
                             }
                         }

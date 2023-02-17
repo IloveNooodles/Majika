@@ -12,6 +12,9 @@ interface MenuDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll( menu: List<MenuDatabaseEntity>)
+
+    @Query("delete from menu")
+    fun deleteAll()
 }
 
 
