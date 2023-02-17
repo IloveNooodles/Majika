@@ -4,8 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
-import android.graphics.SurfaceTexture
+import android.graphics.*
 import android.hardware.camera2.*
 import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.Image
@@ -17,13 +16,17 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dba.majika.databinding.FragmentTwibbonBinding
+import java.lang.Float.max
+import java.nio.ByteBuffer
 import java.util.*
+
 
 class TwibbonFragment : Fragment() {
 
@@ -262,8 +265,36 @@ class TwibbonFragment : Fragment() {
      * ImageAvailable Listener
      */
     private val onImageAvailableListener = ImageReader.OnImageAvailableListener { reader ->
-        Toast.makeText(requireActivity(), "Photo Taken!", Toast.LENGTH_SHORT).show()
         val image: Image = reader.acquireLatestImage()
+        val buffer: ByteBuffer = image.planes[0].buffer
+        val bytes = ByteArray(buffer.capacity())
+        buffer.get(bytes)
+        val bitmapImage: Bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
+
+        val d = requireActivity().resources.getIdentifier(
+            "@drawable/twibbon",
+            "drawable",
+            requireParentFragment().requireContext().packageName
+        )
+        val twibbon: Bitmap = BitmapFactory.decodeResource(requireContext().resources, d)
+        val startX = max(bitmapImage.width / 2f - twibbon.width / 2f, 0f)
+        val startY = max(bitmapImage.height/2f - twibbon.height/2f, 0f)
+        val scaledBitmap: Bitmap = Bitmap.createBitmap(bitmapImage, startX.toInt(), startY.toInt(), twibbon.width, twibbon.height)
+
+        val matrix = Matrix()
+        matrix.postRotate(requireActivity().windowManager.defaultDisplay.rotation.toFloat())
+        val rotatedBmp: Bitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+        val bmOverlay = Bitmap.createBitmap(bitmapImage.width, bitmapImage.height, bitmapImage.config)
+        val canvas = Canvas(bmOverlay)
+        canvas.drawBitmap(rotatedBmp, Matrix(), null)
+        canvas.drawBitmap(twibbon, 0f, 0f, null)
+
+        val toast = Toast(context)
+        val view = ImageView(context)
+        view.setImageBitmap(bmOverlay)
+        toast.setView(view)
+        toast.show()
+        Log.d("image", image.toString())
         image.close()
     }
 
