@@ -81,7 +81,6 @@ class TwibbonFragment : Fragment() {
 
         textureView = binding.cameraPreview
         return root
-        startBackgroundThread()
     }
     override fun onResume(){
         super.onResume()
@@ -102,6 +101,11 @@ class TwibbonFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        stopBackgroundThread()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -118,25 +122,25 @@ class TwibbonFragment : Fragment() {
     private fun setupCamera() {
         val cameraIds: Array<String> = cameraManager.cameraIdList
         Log.d("camera", "ids:${cameraIds.size}")
+        cameraId = cameraIds[0]
         for (id in cameraIds) {
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(id)
 
             //If we want to choose the rear facing camera instead of the front facing one
             if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
-                Log.d("camera", "back")
-                continue
-            }
+                Log.d("camera", "front")
+                val streamConfigurationMap : StreamConfigurationMap? = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
 
-            val streamConfigurationMap : StreamConfigurationMap? = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-
-            if (streamConfigurationMap != null) {
-                previewSize = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!.getOutputSizes(
-                    ImageFormat.JPEG).maxByOrNull { it.height * it.width }!!
-                imageReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.JPEG, 1)
-                imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
+                if (streamConfigurationMap != null) {
+                    previewSize = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!.getOutputSizes(
+                        ImageFormat.JPEG).maxByOrNull { it.height * it.width }!!
+                    imageReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.JPEG, 1)
+                    imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
+                }
+                cameraId = id
+                Log.d("camera", "id:${cameraId.toString()}")
+                break
             }
-            cameraId = id
-            Log.d("camera", "id:${cameraId.toString()}")
         }
     }
     private fun takePhoto() {
