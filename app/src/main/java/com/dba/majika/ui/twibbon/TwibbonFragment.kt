@@ -83,8 +83,8 @@ class TwibbonFragment : Fragment() {
         return root
         startBackgroundThread()
     }
-    override fun onStart(){
-        super.onStart()
+    override fun onResume(){
+        super.onResume()
         startBackgroundThread()
         Log.d("onStart", cameraPermission.toString())
         if (cameraPermission){
@@ -95,6 +95,10 @@ class TwibbonFragment : Fragment() {
                 }
             }
             setupCamera()
+            textureView.surfaceTextureListener = surfaceTextureListener
+            if (textureView.isAvailable)
+                connectCamera()
+
         }
     }
 
@@ -113,12 +117,13 @@ class TwibbonFragment : Fragment() {
     }
     private fun setupCamera() {
         val cameraIds: Array<String> = cameraManager.cameraIdList
-
+        Log.d("camera", "ids:${cameraIds.size}")
         for (id in cameraIds) {
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(id)
 
             //If we want to choose the rear facing camera instead of the front facing one
-            if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_BACK) {
+            if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
+                Log.d("camera", "back")
                 continue
             }
 
@@ -131,6 +136,7 @@ class TwibbonFragment : Fragment() {
                 imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
             }
             cameraId = id
+            Log.d("camera", "id:${cameraId.toString()}")
         }
     }
     private fun takePhoto() {
@@ -150,7 +156,7 @@ class TwibbonFragment : Fragment() {
     private val surfaceTextureListener = object : TextureView.SurfaceTextureListener {
         @SuppressLint("MissingPermission")
         override fun onSurfaceTextureAvailable(texture: SurfaceTexture, width: Int, height: Int) {
-            if (wasCameraPermissionWasGiven()) {
+            if (cameraPermission) {
                 setupCamera()
                 connectCamera()
             }
