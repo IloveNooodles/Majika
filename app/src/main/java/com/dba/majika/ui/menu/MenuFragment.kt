@@ -110,7 +110,6 @@ class MenuFragment : Fragment(), SensorEventListener {
         _binding = null
     }
     override fun onSensorChanged(p0: SensorEvent?) {
-        p0?.values?.get(0)?.let { Log.d("sensor", it.toString()) }
         val temp = p0!!.values[0]
         binding.tempDisplay.text = "$temp°c"
     }
