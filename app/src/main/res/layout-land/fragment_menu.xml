@@ -8,20 +8,31 @@
     tools:context=".ui.menu.MenuFragment"
     android:orientation="horizontal">
 
-    <SearchView
-        android:layout_gravity="center"
-        android:id="@+id/search_view"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="25dp"
+    <LinearLayout
         android:layout_weight="0.7"
-        android:background="@drawable/background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/temp_display"
+            android:text="@string/placeholder"
+            android:layout_marginTop="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menu_recycler_view"

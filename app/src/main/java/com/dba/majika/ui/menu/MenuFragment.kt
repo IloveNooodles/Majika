@@ -1,5 +1,10 @@
 package com.dba.majika.ui.menu
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +19,9 @@ import com.dba.majika.adapters.MenuItemAdapter
 import com.dba.majika.databinding.FragmentMenuBinding
 import com.dba.majika.models.menu.MenuListItem
 
-class MenuFragment : Fragment() {
-
+class MenuFragment : Fragment(), SensorEventListener {
+    private lateinit var mSensorManager: SensorManager;
+    private var mTempSensor: Sensor? = null
     private var _binding: FragmentMenuBinding? = null
 
     // This property is only valid between onCreateView and
@@ -38,7 +44,6 @@ class MenuFragment : Fragment() {
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         val recyclerView = binding.menuRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = MenuItemAdapter()
@@ -48,12 +53,14 @@ class MenuFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        // recycler view observer
         viewModel.menu.observe(viewLifecycleOwner, Observer<List<MenuListItem>> { item ->
             item?.apply {
                 (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
             }
         })
 
+        // search view listener
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
@@ -74,6 +81,23 @@ class MenuFragment : Fragment() {
                 return false
             }
         })
+
+        // initialize sensors
+        mSensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        mTempSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // temp sensor
+        mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+
+    }
+
+    override fun onPause(){
+        super.onPause()
+        mSensorManager.unregisterListener(this)
     }
 
     override fun onStop(){
@@ -85,7 +109,13 @@ class MenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    private fun updateMenu(){
+    override fun onSensorChanged(p0: SensorEvent?) {
+        p0?.values?.get(0)?.let { Log.d("sensor", it.toString()) }
+        val temp = p0!!.values[0]
+        binding.tempDisplay.text = "$temp°c"
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
 
     }
 }
