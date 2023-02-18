@@ -22,10 +22,10 @@ class RestaurantAdapter(
                 restoPhone.text = restaurantData.phone
                 restoTitle.text = restaurantData.name
                 mapsButton.tag = String.format(
-                    "geo:%s,%s?z=15(%s)",
+                    "geo:0,0?z=15&q=%s,%s(%s)",
                     restaurantData.latitude.toBigDecimal().toPlainString(),
                     restaurantData.longitude.toBigDecimal().toPlainString(),
-                    restoTitle.text     // Label not working, don't know why
+                    Uri.encode(restaurantData.name)
                 )
 
                 mapsButton.setOnClickListener() {
@@ -33,7 +33,10 @@ class RestaurantAdapter(
                         Uri.parse(mapsButton.tag as String?)
                     val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
                     mapIntent.setPackage("com.google.android.apps.maps")
-                    context.startActivity(mapIntent)
+                    /* needs to check if the app can open intent */
+                    mapIntent.resolveActivity(context.packageManager).let {
+                        context.startActivity(mapIntent)
+                    }
                 }
             }
         }

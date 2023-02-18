@@ -19,7 +19,7 @@ class RestaurantDatasource {
                 }
                 override fun onResponse( call: Call<RestaurantResponse>, response: Response<RestaurantResponse>) {
                     Log.d("retrofit", "restaurant successful")
-                    listener.onDataLoad(response.body().data)
+                    response.body()?.data?.let { listener.onDataLoad(it) }
                 }
             }
         )

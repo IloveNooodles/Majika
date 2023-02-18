@@ -40,7 +40,12 @@ class MenuRepository(private val database: MajikaDatabase) {
                         launch {
                             withContext(Dispatchers.IO) {
                                 database.menuDao.deleteAll()
-                                database.menuDao.insertAll((response.body().asDatabaseModel()))
+                                response.body()?.asDatabaseModel().let {
+                                    if (it != null) {
+                                        database.menuDao.insertAll(it)
+                                    }
+                                }
+                                
                             }
                         }
                     }
