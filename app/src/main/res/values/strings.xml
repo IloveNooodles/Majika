@@ -4,6 +4,7 @@
     <string name="title_restaurant">Restaurant</string>
     <string name="title_menu">Menu</string>
     <string name="title_keranjang">Keranjang</string>
+    <string name="title_pembayaran">Pembayaran</string>
     <string name="maps">Maps</string>
     <string name="placeholder">Placeholder</string>
     <string name="menu_food_header">Food</string>
@@ -11,6 +12,16 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="zero">0</string>
-    <string name="jumlah">Jumlah: </string>
+    <string name="jumlah">Jumlah</string>
     <string name="photo">Take Photo</string>
+    <string name="total">Total: </string>
+    <string name="bayar">Bayar</string>
+    <string name="scan">Scan</string>
+    <string name="payment_success">Berhasil</string>
+    <string name="payment_failed">Gagal</string>
+    <string name="payment_not_payed">Belum dibayar</string>
+    <string name="payment_payed">Sudah dibayar</string>
+    <string name="payment_placeholder">Rp 0</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

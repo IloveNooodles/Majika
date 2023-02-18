@@ -11,8 +11,46 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keranjang_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/dp_zero"
         android:scrollbars="vertical"
-        app:layoutManager="LinearLayoutManager" />
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/keranjang_total"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/keranjang_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_normal"
+        android:text="@string/total"
+        android:textSize="@dimen/font_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/keranjang_harga"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/keranjang_harga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_normal"
+        android:layout_marginBottom="@dimen/dp_small"
+        android:text="@string/payment_placeholder"
+        android:textSize="@dimen/font_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="@dimen/dp_normal"
+        android:background="@color/secondary"
+        android:backgroundTint="@color/secondary"
+        android:text="@string/bayar"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
