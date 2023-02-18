@@ -40,7 +40,11 @@ class RestaurantRepository(private val database: MajikaDatabase) {
                         launch {
                             withContext(Dispatchers.IO) {
                                 database.restaurantsDao.deleteAll()
-                                database.restaurantsDao.insertAll(response.body().asDatabaseModel())
+                                response.body()?.asDatabaseModel().let {
+                                    if (it != null) {
+                                        database.restaurantsDao.insertAll(it)
+                                    }
+                                }
                             }
                         }
                     }
