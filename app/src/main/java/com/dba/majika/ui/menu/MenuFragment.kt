@@ -85,13 +85,14 @@ class MenuFragment : Fragment(), SensorEventListener {
         // initialize sensors
         mSensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mTempSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
-
     }
 
     override fun onResume() {
         super.onResume()
         // temp sensor
-        mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        if(mTempSensor != null){
+            mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
 
     }
 
