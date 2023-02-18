@@ -90,8 +90,7 @@ class TwibbonFragment : Fragment() {
         super.onResume()
         startBackgroundThread()
         Log.d("onStart", cameraPermission.toString())
-        if (cameraPermission) setupCamera()
-        if (cameraAvailable){
+        if (cameraPermission){
             cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
             binding.takePhotoBtn.apply{
                 setOnClickListener {
@@ -104,6 +103,7 @@ class TwibbonFragment : Fragment() {
                 connectCamera()
 
         }
+        if (cameraAvailable) setupCamera();
     }
 
     override fun onPause() {
@@ -125,6 +125,9 @@ class TwibbonFragment : Fragment() {
         return cameraPermission
     }
     private fun setupCamera() {
+        if(cameraManager == null){
+            return
+        }
         val cameraIds: Array<String> = cameraManager.cameraIdList
         Log.d("camera", "ids:${cameraIds.size}")
         cameraId = cameraIds[0]

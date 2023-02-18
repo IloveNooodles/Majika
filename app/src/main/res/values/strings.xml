@@ -8,4 +8,9 @@
     <string name="placeholder">Placeholder</string>
     <string name="menu_food_header">Food</string>
     <string name="menu_drinks_header">Drinks</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="zero">0</string>
+    <string name="jumlah">Jumlah: </string>
+    <string name="photo">Take Photo</string>
 </resources>

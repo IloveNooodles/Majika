@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu_item_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:layout_margin = "8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:background="@color/secondary"
+        android:baselineAligned="false"
         android:gravity="center"
-        android:weightSum="2"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <LinearLayout
-            android:paddingLeft="12dp"
-            android:paddingTop="12dp"
-            android:layout_weight="1.8"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_weight="1.8"
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="0dp">
 
             <TextView
                 android:id="@+id/menu_item_name"
@@ -38,8 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textSize="16sp"
                 android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:text="@string/placeholder" />
 
             <TextView
@@ -47,8 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textSize="16sp"
                 android:textColor="@color/white"
+                android:textSize="16sp"
                 tools:text="@string/placeholder" />
 
             <TextView
@@ -56,22 +59,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:textSize="12sp"
                 android:textColor="@color/white"
+                android:textSize="12sp"
                 tools:text="@string/placeholder" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="0.2"
             android:layout_width="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/reduce_item_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="-"
+                android:text="@string/plus"
                 android:textAlignment="center"
                 android:textColor="@color/secondary"
                 android:textSize="20sp" />
@@ -80,22 +85,19 @@
                 android:id="@+id/menu_count"
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/zero"
                 android:textAlignment="center"
-                android:textSize="20sp"
                 android:textColor="@color/white"
-                />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/add_item_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="+"
-                android:textSize="20sp"
+                android:text="@string/minus"
                 android:textColor="@color/secondary"
-                />
+                android:textSize="20sp" />
         </LinearLayout>
-
 
     </LinearLayout>
 
