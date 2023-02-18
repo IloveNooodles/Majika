@@ -11,8 +11,12 @@ import com.dba.majika.models.restaurant.Restaurant
 
 class RestaurantAdapter(
     private val context: Context,
-    private val restaurantData: List<Restaurant>
 ) : RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder>() {
+    var list: List<Restaurant> = emptyList()
+    set(value){
+        field = value
+        notifyDataSetChanged()
+    }
 
     inner class RestaurantViewHolder(private val binding: ListRestaurantBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -46,9 +50,9 @@ class RestaurantAdapter(
     }
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
-        val item = restaurantData[position]
+        val item = list[position]
         holder.bind(item)
     }
 
-    override fun getItemCount() = restaurantData.size
+    override fun getItemCount() = list.size
 }

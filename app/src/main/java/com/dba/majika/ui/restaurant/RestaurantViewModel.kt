@@ -1,13 +1,39 @@
 package com.dba.majika.ui.restaurant
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.*
+import com.dba.majika.database.getDatabase
+import com.dba.majika.repository.RestaurantRepository
+import kotlinx.coroutines.launch
+import java.io.IOException
 
-class RestaurantViewModel : ViewModel() {
+class RestaurantViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+    private val repository = RestaurantRepository(getDatabase(application))
+    val restaurants = repository.restaurants
+
+    init {
+        refreshData()
     }
-    val text: LiveData<String> = _text
+
+    fun refreshData() = viewModelScope.launch {
+        try {
+            repository.refreshRestaurants()
+            Log.d("viewModel", "menu successful")
+        } catch (networkError: IOException) {
+            Log.d("viewModel", "menu failed")
+        }
+
+    }
+
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(RestaurantViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return RestaurantViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
+    }
 }
