@@ -47,6 +47,7 @@ class TwibbonFragment : Fragment() {
     private lateinit var imageReader: ImageReader
     private lateinit var previewSize: Size
     private var cameraPermission = false
+    private var cameraAvailable = false
 
     private var orientations : SparseIntArray = SparseIntArray(4).apply {
         append(Surface.ROTATION_0, 0)
@@ -89,14 +90,15 @@ class TwibbonFragment : Fragment() {
         super.onResume()
         startBackgroundThread()
         Log.d("onStart", cameraPermission.toString())
-        if (cameraPermission){
+        if (cameraPermission) setupCamera()
+        if (cameraAvailable){
             cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
             binding.takePhotoBtn.apply{
                 setOnClickListener {
                     takePhoto()
                 }
             }
-            setupCamera()
+
             textureView.surfaceTextureListener = surfaceTextureListener
             if (textureView.isAvailable)
                 connectCamera()
@@ -141,12 +143,17 @@ class TwibbonFragment : Fragment() {
                     imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
                 }
                 cameraId = id
+                cameraAvailable = true
                 Log.d("camera", "id:${cameraId.toString()}")
-                break
+                return
             }
+            Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT).show()
+            cameraAvailable = false
+
         }
     }
     private fun takePhoto() {
+        if (!cameraAvailable) return
         captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReader.surface)
         val rotation = requireActivity().windowManager.defaultDisplay.rotation
