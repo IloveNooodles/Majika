@@ -26,28 +26,21 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            tools:text="Cabang Ganesa" />
+            tools:text="Makanan 1" />
 
         <TextView
-            android:id="@+id/keranjang_card_address"
+            android:id="@+id/keranjang_card_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:textColor="@color/white"
-            tools:text="Jl. Ganesa No. 10, Bandung" />
-
-        <TextView
-            android:id="@+id/keranjang_card_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:textColor="@color/white"
-            tools:text="(021) 45672345" />
+            tools:text="Rp 50.000" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/keranjang_button_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/dp_small"
             android:layout_weight="0.2"
             android:orientation="horizontal">
 
@@ -82,7 +75,8 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/keranjang_reduce_item_button"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0" />
 
             <Button
                 android:id="@+id/keranjang_add_item_button"

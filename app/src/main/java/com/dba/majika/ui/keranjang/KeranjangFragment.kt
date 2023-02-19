@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dba.majika.adapters.KeranjangAdapter
+import com.dba.majika.data.KeranjangDataSource
 import com.dba.majika.databinding.FragmentKeranjangBinding
 
 class KeranjangFragment : Fragment() {
@@ -25,6 +28,10 @@ class KeranjangFragment : Fragment() {
     ): View? {
         _binding = FragmentKeranjangBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val recylerView = binding.keranjangRecyclerView
+        recylerView.layoutManager = LinearLayoutManager(activity)
+        val data = KeranjangDataSource.loadMenu()
+        recylerView.adapter = KeranjangAdapter(data)
         
         return root
     }
