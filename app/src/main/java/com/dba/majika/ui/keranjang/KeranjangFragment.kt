@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dba.majika.adapters.KeranjangAdapter
 import com.dba.majika.data.KeranjangDataSource
 import com.dba.majika.databinding.FragmentKeranjangBinding
+import com.dba.majika.ui.pembayaran.PembayaranFragment
+
 
 class KeranjangFragment : Fragment() {
     
@@ -22,11 +24,31 @@ class KeranjangFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     
+    override fun toString(): String {
+        return "navigation_keranjang"
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        
         _binding = FragmentKeranjangBinding.inflate(inflater, container, false)
+        binding.keranjangButtonBayar.setOnClickListener {
+            fun onClick() {
+                val fragmentManager = activity?.supportFragmentManager
+                if (fragmentManager != null) {
+                    val fragmentTransaction = fragmentManager.beginTransaction()
+                    val pembayaranFragment = PembayaranFragment()
+                    fragmentTransaction.addToBackStack(this.toString())
+                    fragmentTransaction.replace(this.id, pembayaranFragment)
+                    fragmentTransaction.commit()
+                }
+                
+            }
+            onClick()
+        }
+        
         val root: View = binding.root
         val recylerView = binding.keranjangRecyclerView
         recylerView.layoutManager = LinearLayoutManager(activity)
@@ -34,6 +56,10 @@ class KeranjangFragment : Fragment() {
         recylerView.adapter = KeranjangAdapter(data)
         
         return root
+    }
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
     
     override fun onActivityCreated(savedInstanceState: Bundle?) {

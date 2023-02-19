@@ -27,5 +27,15 @@
         android:id="@+id/navigation_keranjang"
         android:name="com.dba.majika.ui.keranjang.KeranjangFragment"
         android:label="@string/title_keranjang"
-        tools:layout="@layout/fragment_keranjang" />
+        tools:layout="@layout/fragment_keranjang">
+        <action
+            android:id="@+id/action_navigation_keranjang_to_navigation_pembayaran"
+            app:destination="@id/navigation_pembayaran" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_pembayaran"
+        android:name="com.dba.majika.ui.pembayaran.PembayaranFragment"
+        android:label="@string/title_pembayaran"
+        tools:layout="@layout/fragment_pembayaran" />
 </navigation>
