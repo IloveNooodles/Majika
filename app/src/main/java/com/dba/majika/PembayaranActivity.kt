@@ -1,23 +1,23 @@
 package com.dba.majika
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.dba.majika.databinding.ActivityKeranjangBinding
+import com.dba.majika.databinding.ActivityPembayaranBinding
+import com.google.android.material.snackbar.Snackbar
 
-class KeranjangActivity : AppCompatActivity() {
+class PembayaranActivity : AppCompatActivity() {
     
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityKeranjangBinding
+    private lateinit var binding: ActivityPembayaranBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        binding = ActivityKeranjangBinding.inflate(layoutInflater)
+        binding = ActivityPembayaranBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
         setSupportActionBar(binding.toolbar)

@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:fontFamily="@font/Inter"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:fontFamily="@font/Inter"
             android:textColor="@color/white"
             tools:text="Jl. Ganesa No. 10, Bandung" />
 
@@ -42,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:fontFamily="@font/Inter"
             android:textColor="@color/white"
             tools:text="(021) 45672345" />
 
@@ -49,6 +52,7 @@
             android:id="@+id/maps_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/Inter"
             android:text="@string/maps"
             android:textColor="@color/secondary"
             tools:text="maps" />
