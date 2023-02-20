@@ -22,7 +22,6 @@ class MenuRepository(private val database: MajikaDatabase) {
         it.asDomainModel()
     }
 
-
     suspend fun refreshMenu() {
         RetrofitClient.api.getMenu().enqueue(
             object : Callback<MenuListResponse> {

@@ -13,17 +13,24 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = MenuRepository(getDatabase(application))
 
-    var filter = ""
-    val menu = repository.menu.map{ item ->
-        item.filter{
-            it is MenuHeaderItem ||
-                    (it is MenuItem && filter in it.name)
-        }
-    }
+    val menu: MediatorLiveData<List<MenuListItem>> = MediatorLiveData();
+    val filter: MutableLiveData<String> = MutableLiveData();
     init {
+        filter.value = "";
+        menu.addSource(repository.menu){
+            res -> menu.value = res.filter{
+                it is MenuHeaderItem ||
+                        (it is MenuItem && filter.value!!.uppercase() in it.name.uppercase())
+            }
+        }
+        menu.addSource(filter){
+            res -> menu.value = repository.menu.value?.filter{
+                it is MenuHeaderItem ||
+                        (it is MenuItem && res!!.uppercase() in it.name.uppercase())
+            }
+        }
         refreshData()
     }
-
     fun refreshData() = viewModelScope.launch {
         try {
             repository.refreshMenu()
@@ -31,7 +38,6 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
         } catch (networkError: IOException) {
             Log.d("viewModel", "menu failed")
         }
-
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {

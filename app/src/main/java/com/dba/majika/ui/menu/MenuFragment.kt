@@ -67,15 +67,13 @@ class MenuFragment : Fragment(), SensorEventListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d("SearchView", "submit")
                 if (query != null) {
-                    viewModel.filter = query
-                    viewModel.refreshData()
+                    viewModel.filter.value = query
                 }
                 return true
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null && newText.length == 0){
-                    viewModel.filter = newText
-                    viewModel.refreshData()
+                    viewModel.filter.value = newText
                 }
                 Log.d("SearchView", "change")
                 return false
@@ -89,6 +87,7 @@ class MenuFragment : Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
+        viewModel.refreshData()
         // temp sensor
         if(mTempSensor != null){
             mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
