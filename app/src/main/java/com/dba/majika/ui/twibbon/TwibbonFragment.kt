@@ -117,10 +117,11 @@ class TwibbonFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         Log.d("camera", "on pause")
-        // stopBackgroundThread()
 
         if (::cameraDevice.isInitialized) cameraDevice.close()
         if (::cameraCaptureSession.isInitialized) cameraCaptureSession.close()
+
+        stopBackgroundThread()
     }
 
     override fun onDestroyView() {
