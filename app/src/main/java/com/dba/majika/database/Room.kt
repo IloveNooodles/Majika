@@ -20,7 +20,7 @@ interface MenuDao {
 
 @Dao
 interface RestaurantsDao {
-    @Query("select * from restaurants")
+    @Query("select * from restaurants order by name")
     fun getRestaurants(): LiveData<List<RestaurantDatabaseEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
