@@ -101,7 +101,7 @@ class TwibbonFragment : Fragment() {
             cameraManager =
                 requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
             setupCamera()
-            binding.takePhotoBtn.apply {
+            if (cameraAvailable)binding.takePhotoBtn.apply {
                 setOnClickListener {
                     takePhoto()
                 }
