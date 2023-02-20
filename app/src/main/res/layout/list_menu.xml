@@ -76,7 +76,7 @@
                 android:id="@+id/reduce_item_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="@string/plus"
+                android:text="@string/minus"
                 android:textAlignment="center"
                 android:textColor="@color/secondary"
                 android:textSize="20sp" />
@@ -94,7 +94,7 @@
                 android:id="@+id/add_item_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="@string/minus"
+                android:text="@string/plus"
                 android:textColor="@color/secondary"
                 android:textSize="20sp" />
         </LinearLayout>
