@@ -47,6 +47,7 @@ class TwibbonFragment : Fragment() {
     private lateinit var imageReader: ImageReader
     private lateinit var previewSize: Size
     private var cameraPermission = false
+    private var cameraAvailable = false
 
     private var orientations: SparseIntArray = SparseIntArray(4).apply {
         append(Surface.ROTATION_0, 0)
@@ -119,7 +120,7 @@ class TwibbonFragment : Fragment() {
 
         if (::cameraDevice.isInitialized) cameraDevice.close()
         if (::cameraCaptureSession.isInitialized) cameraCaptureSession.close()
-
+        cameraAvailable = false;
         stopBackgroundThread()
     }
 
@@ -175,11 +176,13 @@ class TwibbonFragment : Fragment() {
                     )
                 }
                 cameraId = id
+                cameraAvailable = true
                 Log.d("camera", "id:${cameraId.toString()}")
                 return
             }
             Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
                 .show()
+            cameraAvailable = false
 
         }
     }
