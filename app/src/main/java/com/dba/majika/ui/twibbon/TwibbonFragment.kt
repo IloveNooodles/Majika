@@ -354,7 +354,7 @@ class TwibbonFragment : Fragment() {
             true
         );
         val bmOverlay =
-            Bitmap.createBitmap(bitmapImage.width, bitmapImage.height, bitmapImage.config)
+            Bitmap.createBitmap(rotatedBmp.width, rotatedBmp.height, rotatedBmp.config)
         val canvas = Canvas(bmOverlay)
         canvas.drawBitmap(rotatedBmp, Matrix(), null)
         canvas.drawBitmap(twibbon, 0f, 0f, null)
@@ -363,6 +363,7 @@ class TwibbonFragment : Fragment() {
         val view = ImageView(context)
         view.setImageBitmap(bmOverlay)
         toast.setView(view)
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show()
         Log.d("image", image.toString())
         image.close()

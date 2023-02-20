@@ -93,7 +93,6 @@ class MenuFragment : Fragment(), SensorEventListener {
         if(mTempSensor != null){
             mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
-
     }
 
     override fun onPause(){
