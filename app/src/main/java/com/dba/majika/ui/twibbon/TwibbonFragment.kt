@@ -49,7 +49,7 @@ class TwibbonFragment : Fragment() {
     private var cameraPermission = false
     private var cameraAvailable = false
 
-    private var orientations : SparseIntArray = SparseIntArray(4).apply {
+    private var orientations: SparseIntArray = SparseIntArray(4).apply {
         append(Surface.ROTATION_0, 0)
         append(Surface.ROTATION_90, 90)
         append(Surface.ROTATION_180, 180)
@@ -67,11 +67,16 @@ class TwibbonFragment : Fragment() {
                     // app.
                     cameraPermission = true
                 } else {
-                    Toast.makeText(requireActivity(), "Camera cannot be accessed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireActivity(),
+                        "Camera cannot be accessed",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }.launch(Manifest.permission.CAMERA)
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -86,13 +91,17 @@ class TwibbonFragment : Fragment() {
         textureView = binding.cameraPreview
         return root
     }
-    override fun onResume(){
+
+    override fun onResume() {
         super.onResume()
         startBackgroundThread()
         Log.d("onStart", cameraPermission.toString())
-        if (cameraPermission){
-            cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
-            binding.takePhotoBtn.apply{
+
+        if (cameraPermission) {
+            cameraManager =
+                requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
+            setupCamera()
+            binding.takePhotoBtn.apply {
                 setOnClickListener {
                     takePhoto()
                 }
@@ -103,29 +112,37 @@ class TwibbonFragment : Fragment() {
                 connectCamera()
 
         }
-        if (cameraAvailable) setupCamera();
     }
 
     override fun onPause() {
         super.onPause()
-        stopBackgroundThread()
+        Log.d("camera", "on pause")
+        // stopBackgroundThread()
+
+        if (::cameraDevice.isInitialized) cameraDevice.close()
+        if (::cameraCaptureSession.isInitialized) cameraCaptureSession.close()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     /* Camera stuff */
-    private fun wasCameraPermissionWasGiven() : Boolean {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-        {
+    private fun wasCameraPermissionWasGiven(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             cameraPermission = true
             return true
         }
         return cameraPermission
     }
+
     private fun setupCamera() {
-        if(cameraManager == null){
+        if (!::cameraManager.isInitialized) {
             return
         }
         val cameraIds: Array<String> = cameraManager.cameraIdList
@@ -137,27 +154,42 @@ class TwibbonFragment : Fragment() {
             //If we want to choose the rear facing camera instead of the front facing one
             if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
                 Log.d("camera", "front")
-                val streamConfigurationMap : StreamConfigurationMap? = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                val streamConfigurationMap: StreamConfigurationMap? =
+                    cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
 
                 if (streamConfigurationMap != null) {
-                    previewSize = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!.getOutputSizes(
-                        ImageFormat.JPEG).maxByOrNull { it.height * it.width }!!
-                    imageReader = ImageReader.newInstance(previewSize.width, previewSize.height, ImageFormat.JPEG, 1)
-                    imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
+                    previewSize =
+                        cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!
+                            .getOutputSizes(
+                                ImageFormat.JPEG
+                            ).maxByOrNull { it.height * it.width }!!
+                    imageReader = ImageReader.newInstance(
+                        previewSize.width,
+                        previewSize.height,
+                        ImageFormat.JPEG,
+                        1
+                    )
+                    imageReader.setOnImageAvailableListener(
+                        onImageAvailableListener,
+                        backgroundHandler
+                    )
                 }
                 cameraId = id
                 cameraAvailable = true
                 Log.d("camera", "id:${cameraId.toString()}")
                 return
             }
-            Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
+                .show()
             cameraAvailable = false
 
         }
     }
+
     private fun takePhoto() {
         if (!cameraAvailable) return
-        captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+        captureRequestBuilder =
+            cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
         captureRequestBuilder.addTarget(imageReader.surface)
         val rotation = requireActivity().windowManager.defaultDisplay.rotation
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
@@ -166,7 +198,10 @@ class TwibbonFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun connectCamera() {
-        cameraManager.openCamera(cameraId, cameraStateCallback, backgroundHandler)
+        if (::cameraManager.isInitialized && ::cameraId.isInitialized)
+            cameraManager.openCamera(cameraId, cameraStateCallback, backgroundHandler)
+        else
+            Log.d("camera", "camera failed to connect")
     }
 
 
@@ -191,6 +226,7 @@ class TwibbonFragment : Fragment() {
 
         }
     }
+
     /**
      * Camera State Callbacks
      */
@@ -198,14 +234,18 @@ class TwibbonFragment : Fragment() {
     private val cameraStateCallback = object : CameraDevice.StateCallback() {
         override fun onOpened(camera: CameraDevice) {
             cameraDevice = camera
-            val surfaceTexture : SurfaceTexture? = textureView.surfaceTexture
+            val surfaceTexture: SurfaceTexture? = textureView.surfaceTexture
             surfaceTexture?.setDefaultBufferSize(previewSize.width, previewSize.height)
             val previewSurface: Surface = Surface(surfaceTexture)
 
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             captureRequestBuilder.addTarget(previewSurface)
 
-            cameraDevice.createCaptureSession(listOf(previewSurface, imageReader.surface), captureStateCallback, null)
+            cameraDevice.createCaptureSession(
+                listOf(previewSurface, imageReader.surface),
+                captureStateCallback,
+                null
+            )
         }
 
         override fun onDisconnected(cameraDevice: CameraDevice) {
@@ -213,7 +253,7 @@ class TwibbonFragment : Fragment() {
         }
 
         override fun onError(cameraDevice: CameraDevice, error: Int) {
-            val errorMsg = when(error) {
+            val errorMsg = when (error) {
                 ERROR_CAMERA_DEVICE -> "Fatal (device)"
                 ERROR_CAMERA_DISABLED -> "Device policy"
                 ERROR_CAMERA_IN_USE -> "Camera in use"
@@ -233,6 +273,7 @@ class TwibbonFragment : Fragment() {
         override fun onConfigureFailed(session: CameraCaptureSession) {
 
         }
+
         override fun onConfigured(session: CameraCaptureSession) {
             cameraCaptureSession = session
 
@@ -243,6 +284,7 @@ class TwibbonFragment : Fragment() {
             )
         }
     }
+
     /**
      * Capture Callback
      */
@@ -253,13 +295,15 @@ class TwibbonFragment : Fragment() {
             request: CaptureRequest,
             timestamp: Long,
             frameNumber: Long
-        ) {}
+        ) {
+        }
 
         override fun onCaptureProgressed(
             session: CameraCaptureSession,
             request: CaptureRequest,
             partialResult: CaptureResult
-        ) { }
+        ) {
+        }
 
         override fun onCaptureCompleted(
             session: CameraCaptureSession,
@@ -288,13 +332,28 @@ class TwibbonFragment : Fragment() {
         )
         val twibbon: Bitmap = BitmapFactory.decodeResource(requireContext().resources, d)
         val startX = max(bitmapImage.width / 2f - twibbon.width / 2f, 0f)
-        val startY = max(bitmapImage.height/2f - twibbon.height/2f, 0f)
-        val scaledBitmap: Bitmap = Bitmap.createBitmap(bitmapImage, startX.toInt(), startY.toInt(), twibbon.width, twibbon.height)
+        val startY = max(bitmapImage.height / 2f - twibbon.height / 2f, 0f)
+        val scaledBitmap: Bitmap = Bitmap.createBitmap(
+            bitmapImage,
+            startX.toInt(),
+            startY.toInt(),
+            twibbon.width,
+            twibbon.height
+        )
 
         val matrix = Matrix()
         matrix.postRotate(requireActivity().windowManager.defaultDisplay.rotation.toFloat())
-        val rotatedBmp: Bitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
-        val bmOverlay = Bitmap.createBitmap(bitmapImage.width, bitmapImage.height, bitmapImage.config)
+        val rotatedBmp: Bitmap = Bitmap.createBitmap(
+            scaledBitmap,
+            0,
+            0,
+            scaledBitmap.getWidth(),
+            scaledBitmap.getHeight(),
+            matrix,
+            true
+        );
+        val bmOverlay =
+            Bitmap.createBitmap(bitmapImage.width, bitmapImage.height, bitmapImage.config)
         val canvas = Canvas(bmOverlay)
         canvas.drawBitmap(rotatedBmp, Matrix(), null)
         canvas.drawBitmap(twibbon, 0f, 0f, null)
