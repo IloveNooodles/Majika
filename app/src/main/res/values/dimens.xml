@@ -10,4 +10,5 @@
     <!-- fontsize. -->
     <dimen name="font_title">24sp</dimen>
     <dimen name="font_subtitle">16sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
