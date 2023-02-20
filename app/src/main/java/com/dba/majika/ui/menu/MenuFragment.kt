@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -91,6 +92,8 @@ class MenuFragment : Fragment(), SensorEventListener {
         // temp sensor
         if(mTempSensor != null){
             mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }else{
+            Toast.makeText(context, "Temperature sensor unavailable", Toast.LENGTH_SHORT)
         }
     }
 
