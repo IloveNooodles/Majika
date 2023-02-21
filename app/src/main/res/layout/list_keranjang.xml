@@ -58,13 +58,13 @@
 
             <Button
                 android:id="@+id/keranjang_reduce_item_button"
-                android:layout_width="48dp"
+                android:layout_width="55dp"
                 android:layout_height="48dp"
                 android:fontFamily="@font/inter"
                 android:text="@string/plus"
                 android:textAlignment="center"
                 android:textColor="@color/secondary"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,12 +85,12 @@
 
             <Button
                 android:id="@+id/keranjang_add_item_button"
-                android:layout_width="48dp"
+                android:layout_width="55dp"
                 android:layout_height="48dp"
                 android:fontFamily="@font/inter"
                 android:text="@string/minus"
                 android:textColor="@color/secondary"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/keranjang_item_count"
                 app:layout_constraintTop_toTopOf="parent" />

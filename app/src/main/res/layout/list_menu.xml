@@ -78,13 +78,11 @@
 
             <Button
                 android:id="@+id/reduce_item_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:fontFamily="@font/inter"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
                 android:text="@string/minus"
-                android:textAlignment="center"
                 android:textColor="@color/secondary"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/menu_count"
@@ -98,12 +96,12 @@
 
             <Button
                 android:id="@+id/add_item_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:fontFamily="@font/inter"
+                android:layout_width="55dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
                 android:text="@string/plus"
                 android:textColor="@color/secondary"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>

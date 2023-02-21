@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/navigation_pembayaran">
 
+
     <fragment
         android:id="@+id/navigation_pembayaran"
         android:name="com.dba.majika.ui.pembayaran.PembayaranFragment"
