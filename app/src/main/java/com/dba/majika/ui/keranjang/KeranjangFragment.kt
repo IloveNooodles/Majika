@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dba.majika.PembayaranActivity
 import com.dba.majika.adapters.KeranjangAdapter
-import com.dba.majika.data.KeranjangDataSource
 import com.dba.majika.databinding.FragmentKeranjangBinding
+import com.dba.majika.models.keranjang.KeranjangItem
 
 
 class KeranjangFragment : Fragment() {
@@ -24,6 +26,15 @@ class KeranjangFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val viewModel: KeranjangViewModel by lazy {
+        val activity = requireNotNull(this.activity) {
+            "You can only access the view Model after onActivityCreated"
+        }
+        ViewModelProvider(this, KeranjangViewModel.Factory(activity.application)).get(
+            KeranjangViewModel::class.java
+        )
+    }
+    
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,22 +49,23 @@ class KeranjangFragment : Fragment() {
         
         val root: View = binding.root
         val recyclerView = binding.keranjangRecyclerView
+        
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        val data = KeranjangDataSource.loadMenu()
-        recyclerView.adapter = KeranjangAdapter(data)
+        recyclerView.adapter = KeranjangAdapter(viewModel)
         
         return root
+    }
+    
+    override fun onStart() {
+        super.onStart()
+        viewModel.keranjangItems.observe(viewLifecycleOwner, Observer<List<KeranjangItem>> {
+            it?.apply {
+                (binding.keranjangRecyclerView.adapter as KeranjangAdapter).list = it
+            }
+        })
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-    
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        
-        // viewModel = ViewModelProvider(this).get(KeranjangViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-    
 }

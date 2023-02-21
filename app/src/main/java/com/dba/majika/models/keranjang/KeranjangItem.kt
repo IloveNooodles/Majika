@@ -9,6 +9,8 @@ data class KeranjangItem(
     val price: Int,
     @SerializedName("total")
     val total: Int,
-    @SerializedName("itemId")
-    val itemId: Int,
 )
+
+fun KeranjangItem.asDatabaseModel(): KeranjangDatabaseEntity {
+    return KeranjangDatabaseEntity(name, price, total)
+}
