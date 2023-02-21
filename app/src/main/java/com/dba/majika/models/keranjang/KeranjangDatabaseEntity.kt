@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "keranjang")
 data class KeranjangDatabaseEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
     val price: Int,
     val total: Int,
