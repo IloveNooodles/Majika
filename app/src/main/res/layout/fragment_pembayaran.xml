@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
+    <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/pembayaran_qr_code"
         android:layout_width="220dp"
         android:layout_height="214dp"
