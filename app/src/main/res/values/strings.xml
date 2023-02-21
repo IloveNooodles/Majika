@@ -20,8 +20,11 @@
     <string name="scan">Scan</string>
     <string name="payment_success">Berhasil</string>
     <string name="payment_failed">Gagal</string>
+    <string name="payment_error">Error</string>
     <string name="payment_not_payed">Belum dibayar</string>
     <string name="payment_payed">Sudah dibayar</string>
+    <string name="payment_error_qr">QR code tidak sesuai</string>
+    <string name="payment_error_network">Network error</string>
     <string name="payment_placeholder">Rp 0</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
