@@ -8,5 +8,7 @@ data class KeranjangItem(
     @SerializedName("price")
     val price: Int,
     @SerializedName("total")
-    val total: Int
+    val total: Int,
+    @SerializedName("itemId")
+    val itemId: Int,
 )
