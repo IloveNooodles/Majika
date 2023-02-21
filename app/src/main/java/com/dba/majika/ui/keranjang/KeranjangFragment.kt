@@ -37,10 +37,10 @@ class KeranjangFragment : Fragment() {
         }
         
         val root: View = binding.root
-        val recylerView = binding.keranjangRecyclerView
-        recylerView.layoutManager = LinearLayoutManager(activity)
+        val recyclerView = binding.keranjangRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         val data = KeranjangDataSource.loadMenu()
-        recylerView.adapter = KeranjangAdapter(data)
+        recyclerView.adapter = KeranjangAdapter(data)
         
         return root
     }
