@@ -12,8 +12,22 @@ data class MenuItem(
     @SerializedName("description")
     val desc: String,
     @SerializedName("type")
-    val type: String) : MenuListItem() {
+    val type: String,
+    @SerializedName("quantity")
+    val quantity: Int
+) : MenuListItem() {
     override fun getType(): Int {
         return TYPE_MENU
     }
+}
+
+fun MenuItem.asDatabaseModel(): MenuDatabaseEntity {
+    return MenuDatabaseEntity(
+        name = name,
+        price = price,
+        sold = sold,
+        desc = desc,
+        type = type,
+        quantity = quantity
+    )
 }

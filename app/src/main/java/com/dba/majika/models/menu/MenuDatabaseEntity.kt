@@ -1,4 +1,5 @@
 package com.dba.majika.models.menu;
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
@@ -11,7 +12,8 @@ data class MenuDatabaseEntity constructor(
     val price: Int,
     val sold: Int,
     val desc: String,
-    val type: String
+    val type: String,
+    val quantity: Int,
 )
 
 fun List<MenuDatabaseEntity>.asDomainModel(): List<MenuListItem> {
@@ -21,7 +23,8 @@ fun List<MenuDatabaseEntity>.asDomainModel(): List<MenuListItem> {
             price = it.price,
             sold = it.sold,
             desc = it.desc,
-            type = it.type
+            type = it.type,
+            quantity = it.quantity
         )
     }
     val ret = mutableListOf<MenuListItem>()

@@ -19,16 +19,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dba.majika.adapters.MenuItemAdapter
 import com.dba.majika.databinding.FragmentMenuBinding
 import com.dba.majika.models.menu.MenuListItem
+import com.dba.majika.ui.keranjang.KeranjangViewModel
 
 class MenuFragment : Fragment(), SensorEventListener {
     private lateinit var mSensorManager: SensorManager;
     private var mTempSensor: Sensor? = null
     private var _binding: FragmentMenuBinding? = null
-
+    
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    
     private val viewModel: MenuViewModel by lazy {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
@@ -36,22 +37,30 @@ class MenuFragment : Fragment(), SensorEventListener {
         ViewModelProvider(this, MenuViewModel.Factory(activity.application))
             .get(MenuViewModel::class.java)
     }
-
+    
+    private val keranjangViewModel: KeranjangViewModel by lazy {
+        val activity = requireNotNull(this.activity) {
+            "You can only access the viewModel after onActivityCreated()"
+        }
+        ViewModelProvider(this, KeranjangViewModel.Factory(activity.application))
+            .get(KeranjangViewModel::class.java)
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val recyclerView = binding.menuRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = MenuItemAdapter()
-
+        recyclerView.adapter = MenuItemAdapter(viewModel, keranjangViewModel)
+        
         return root
     }
-
+    
     override fun onStart() {
         super.onStart()
         // recycler view observer
@@ -60,7 +69,7 @@ class MenuFragment : Fragment(), SensorEventListener {
                 (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
             }
         })
-
+        
         // search view listener
         val searchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -72,51 +81,53 @@ class MenuFragment : Fragment(), SensorEventListener {
                 }
                 return true
             }
+            
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null && newText.length == 0){
+                if (newText != null && newText.length == 0) {
                     viewModel.filter.value = newText
                 }
                 Log.d("SearchView", "change")
                 return false
             }
         })
-
+        
         // initialize sensors
         mSensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mTempSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
     }
-
+    
     override fun onResume() {
         super.onResume()
         viewModel.refreshData()
         // temp sensor
-        if(mTempSensor != null){
+        if (mTempSensor != null) {
             mSensorManager.registerListener(this, mTempSensor, SensorManager.SENSOR_DELAY_NORMAL)
-        }else{
+        } else {
             Toast.makeText(context, "Temperature sensor unavailable", Toast.LENGTH_SHORT)
         }
     }
-
-    override fun onPause(){
+    
+    override fun onPause() {
         super.onPause()
         mSensorManager.unregisterListener(this)
     }
-
-    override fun onStop(){
+    
+    override fun onStop() {
         super.onStop()
         viewModel.menu.removeObservers(viewLifecycleOwner)
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+    
     override fun onSensorChanged(p0: SensorEvent?) {
         val temp = p0!!.values[0]
         binding.tempDisplay.text = "$temp°c"
     }
-
+    
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-
+    
     }
 }

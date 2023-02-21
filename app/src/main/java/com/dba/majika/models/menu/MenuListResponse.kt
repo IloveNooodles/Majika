@@ -1,4 +1,5 @@
 package com.dba.majika.models.menu
+
 import android.util.Log
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -35,7 +36,8 @@ fun MenuListResponse.asDatabaseModel(): List<MenuDatabaseEntity> {
             price = it.price,
             sold = it.sold,
             desc = it.desc,
-            type = it.type
+            type = it.type,
+            quantity = 0
         )
     }
 }

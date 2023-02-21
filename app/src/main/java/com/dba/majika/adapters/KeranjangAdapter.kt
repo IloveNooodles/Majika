@@ -25,7 +25,6 @@ class KeranjangAdapter(viewModel: KeranjangViewModel) :
                 keranjangCardTitle.text = item.name
                 keranjangCardPrice.text = item.price.toString()
                 keranjangItemCount.text = item.total.toString()
-                
             }
         }
         

@@ -1,10 +1,7 @@
 package com.dba.majika.models.menu
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface MenuDao {
@@ -13,6 +10,9 @@ interface MenuDao {
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(menu: List<MenuDatabaseEntity>)
+    
+    @Update
+    suspend fun updateItems(menu: MenuDatabaseEntity)
     
     @Query("delete from menu")
     fun deleteAll()
