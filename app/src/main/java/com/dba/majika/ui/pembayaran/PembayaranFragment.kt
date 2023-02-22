@@ -19,6 +19,7 @@ import com.dba.majika.R
 import com.dba.majika.api.RetrofitClient
 import com.dba.majika.databinding.FragmentPembayaranBinding
 import com.dba.majika.models.pembayaran.PembayaranResponse
+import com.dba.majika.repository.KeranjangRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,6 +94,9 @@ class PembayaranFragment : Fragment() {
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_payed)
                             codeScanner.releaseResources()
+
+                            // Empty keranjang
+                            KeranjangRepository.deleteAll()
 
                             // Redirect to main activity (menu)
                             Thread.sleep(5_000)

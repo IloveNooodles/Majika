@@ -16,4 +16,7 @@ interface KeranjangDao {
     
     @Delete
     fun deleteItem(keranjangItem: KeranjangDatabaseEntity)
+
+    @Query("delete from keranjang")
+    fun deleteAll()
 }

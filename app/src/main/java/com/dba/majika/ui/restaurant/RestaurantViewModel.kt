@@ -20,9 +20,9 @@ class RestaurantViewModel(application: Application) : AndroidViewModel(applicati
     fun refreshData() = viewModelScope.launch {
         try {
             repository.refreshRestaurants()
-            Log.d("viewModel", "menu successful")
+            Log.d("viewModel", "restaurant successful")
         } catch (networkError: IOException) {
-            Log.d("viewModel", "menu failed")
+            Log.d("viewModel", "restaurant failed")
         }
 
     }

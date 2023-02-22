@@ -18,7 +18,7 @@ object KeranjangRepository {
             it.asDomainModel()
         }
     
-    suspend fun updateItem(keranjangItem: KeranjangDatabaseEntity) {
+    fun updateItem(keranjangItem: KeranjangDatabaseEntity) {
         runBlocking {
             launch{
                 withContext(Dispatchers.IO){
@@ -28,7 +28,7 @@ object KeranjangRepository {
         }
     }
     
-    suspend fun insertItem(keranjangItem: KeranjangDatabaseEntity) {
+    fun insertItem(keranjangItem: KeranjangDatabaseEntity) {
         runBlocking {
             launch{
                 withContext(Dispatchers.IO){
@@ -38,11 +38,21 @@ object KeranjangRepository {
         }
     }
     
-    suspend fun deleteItem(keranjangItem: KeranjangDatabaseEntity) {
+    fun deleteItem(keranjangItem: KeranjangDatabaseEntity) {
         runBlocking {
             launch{
                 withContext(Dispatchers.IO){
                     database.keranjangDao.deleteItem(keranjangItem)
+                }
+            }
+        }
+    }
+
+    fun deleteAll() {
+        runBlocking {
+            launch{
+                withContext(Dispatchers.IO){
+                    database.keranjangDao.deleteAll()
                 }
             }
         }
