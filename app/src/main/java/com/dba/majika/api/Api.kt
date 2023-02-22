@@ -1,6 +1,6 @@
 package com.dba.majika.api
 
-import com.dba.majika.models.PaymentResponse
+import com.dba.majika.models.pembayaran.PembayaranResponse
 import com.dba.majika.models.menu.MenuListResponse
 import com.dba.majika.models.restaurant.RestaurantResponse
 import retrofit2.Call
@@ -17,5 +17,5 @@ interface Api {
     fun getMenu(): Call<MenuListResponse>
 
     @POST("payment/{transaction_id}")
-    fun postPayment(@Path("transaction_id") transaction_id: String): Call<PaymentResponse>
+    fun postPayment(@Path("transaction_id") transaction_id: String): Call<PembayaranResponse>
 }

@@ -1,12 +1,16 @@
 package com.dba.majika.ui.pembayaran
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
@@ -14,8 +18,7 @@ import com.dba.majika.MainActivity
 import com.dba.majika.R
 import com.dba.majika.api.RetrofitClient
 import com.dba.majika.databinding.FragmentPembayaranBinding
-import com.dba.majika.models.PaymentResponse
-import com.dba.majika.ui.menu.MenuFragment
+import com.dba.majika.models.pembayaran.PembayaranResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +29,7 @@ class PembayaranFragment : Fragment() {
     }
 
     private var _binding: FragmentPembayaranBinding? = null
+    private var cameraPermission = false
     private lateinit var codeScanner: CodeScanner
 
     // This property is only valid between onCreateView and
@@ -39,6 +43,23 @@ class PembayaranFragment : Fragment() {
         _binding = FragmentPembayaranBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        if (!wasCameraPermissionWasGiven()) {
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    // Permission is granted. Continue the action or workflow in your app.
+                    cameraPermission = true
+                } else {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Camera cannot be accessed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }.launch(Manifest.permission.CAMERA)
+        }
+
         return root
     }
 
@@ -46,8 +67,8 @@ class PembayaranFragment : Fragment() {
         codeScanner = CodeScanner(requireContext(), binding.pembayaranQrCode)
         codeScanner.decodeCallback = DecodeCallback {
             RetrofitClient.api.postPayment(it.text).enqueue(
-                object : Callback<PaymentResponse> {
-                    override fun onFailure(call: Call<PaymentResponse>, t: Throwable) {
+                object : Callback<PembayaranResponse> {
+                    override fun onFailure(call: Call<PembayaranResponse>, t: Throwable) {
                         Log.d("retrofit", "qr error")
                         binding.pembayaranImage.setImageResource(R.drawable.question_mark_24px)
                         binding.pembayaranStatus.text = getText(R.string.payment_error)
@@ -60,8 +81,8 @@ class PembayaranFragment : Fragment() {
                     }
 
                     override fun onResponse(
-                        call: Call<PaymentResponse>,
-                        response: Response<PaymentResponse>
+                        call: Call<PembayaranResponse>,
+                        response: Response<PembayaranResponse>
                     ) {
                         Log.d("retrofit", "qr successful")
                         val result = response.body()
@@ -107,11 +128,16 @@ class PembayaranFragment : Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        // viewModel = ViewModelProvider(this).get(KeranjangViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun wasCameraPermissionWasGiven(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            cameraPermission = true
+            return true
+        }
+        return cameraPermission
     }
 
     override fun onResume() {

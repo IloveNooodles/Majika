@@ -1,8 +1,8 @@
-package com.dba.majika.models
+package com.dba.majika.models.pembayaran
 
 import com.google.gson.annotations.SerializedName
 
-data class PaymentResponse(
+data class PembayaranResponse(
     @SerializedName("status")
     val status: String,
     @SerializedName("error")
