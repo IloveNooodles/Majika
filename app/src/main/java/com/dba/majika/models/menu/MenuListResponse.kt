@@ -37,7 +37,6 @@ fun MenuListResponse.asDatabaseModel(): List<MenuDatabaseEntity> {
             sold = it.sold,
             desc = it.desc,
             type = it.type,
-            quantity = 0
         )
     }
 }

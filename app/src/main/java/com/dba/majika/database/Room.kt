@@ -36,3 +36,9 @@ fun getDatabase(context: Context): MajikaDatabase {
     }
     return INSTANCE
 }
+
+fun getDatabase(): MajikaDatabase {
+    synchronized(MajikaDatabase::class.java){
+        return INSTANCE
+    }
+}

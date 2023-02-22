@@ -9,11 +9,11 @@ interface KeranjangDao {
     fun getItems(): LiveData<List<KeranjangDatabaseEntity>>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertItem(keranjangItem: KeranjangDatabaseEntity)
+    fun insertItem(keranjangItem: KeranjangDatabaseEntity)
     
     @Update
-    suspend fun updateItem(keranjangItem: KeranjangDatabaseEntity)
+    fun updateItem(keranjangItem: KeranjangDatabaseEntity)
     
     @Delete
-    suspend fun deleteItem(keranjangItem: KeranjangDatabaseEntity)
+    fun deleteItem(keranjangItem: KeranjangDatabaseEntity)
 }

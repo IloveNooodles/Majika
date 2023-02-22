@@ -1,5 +1,6 @@
 package com.dba.majika.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,24 +31,60 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
     
     inner class MenuItemViewHolder(private val binding: ListMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        
-        private var currentItem: MenuItem? = null
-        
-        /* Bind flower name and image. */
+
         fun bind(item: MenuItem) {
             with(this.binding) {
-                currentItem = item
-                
                 menuItemName.text = item.name
                 menuItemPrice.text = "Rp." + item.price.toString()
                 menuItemSold.text = "Sold: " + item.sold.toString()
                 menuItemDescription.text = item.desc
                 menuCount.text = item.quantity.toString()
+                addItemButton.setOnClickListener {
+                    addItem(item, binding)
+                    notifyDataSetChanged()
+                }
+                reduceItemButton.setOnClickListener{
+                    deleteItem(item, binding)
+                    notifyDataSetChanged()
+                }
             }
         }
-        
-        fun updateItem(keranjangItem: MenuItem) {
-            /* check if items is available */
+        private fun addItem(keranjangItem: MenuItem, binding: ListMenuBinding){
+            var isAlreadyExist = false
+            Log.d("addItem", keranjangItemList.size.toString())
+            for (item in keranjangItemList) {
+                if (keranjangItem.name == item.name) {
+                    isAlreadyExist = true
+                    break
+                }
+            }
+            var qty = keranjangItem.quantity
+            val tempItem = KeranjangItem(
+                keranjangItem.name,
+                keranjangItem.price,
+                keranjangItem.quantity + 1
+            )
+
+            val tempMenuItem = MenuItem(
+                keranjangItem.name,
+                keranjangItem.price,
+                keranjangItem.sold,
+                keranjangItem.desc,
+                keranjangItem.type,
+                keranjangItem.quantity + 1
+            )
+            if (isAlreadyExist) {
+                keranjangViewModel.updateItem(tempItem)
+                qty += 1
+            } else {
+                /* insert the new object one */
+                keranjangViewModel.insertItem(tempItem)
+                qty = 1
+            }
+            binding.menuCount.text = qty.toString()
+        }
+
+        private fun deleteItem(keranjangItem: MenuItem, binding: ListMenuBinding){
             var isAlreadyExist = false
             for (item in keranjangItemList) {
                 if (keranjangItem.name == item.name) {
@@ -56,66 +93,34 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
                 }
             }
             var qty = keranjangItem.quantity
-            
-            with(this.binding) {
-                addItemButton.setOnClickListener {
-                    val tempItem = KeranjangItem(
-                        keranjangItem.name,
-                        keranjangItem.price,
-                        keranjangItem.quantity + 1
-                    )
-                    
-                    val tempMenuItem = MenuItem(
-                        keranjangItem.name,
-                        keranjangItem.price,
-                        keranjangItem.sold,
-                        keranjangItem.desc,
-                        keranjangItem.type,
-                        keranjangItem.quantity + 1
-                    )
-                    if (isAlreadyExist) {
-                        viewModel.updateItem(tempMenuItem)
-                        keranjangViewModel.updateItem(tempItem)
-                        qty += 1
-                    } else {
-                        /* insert the new object one */
-                        keranjangViewModel.insertItem(tempItem)
-                        qty = 1
-                    }
-                }
-                
-                reduceItemButton.setOnClickListener {
-                    val tempQuantity = keranjangItem.quantity - 1
-                    /* remove items if already 0 */
-                    if (tempQuantity <= 0) {
-                        val tempItem = KeranjangItem(
-                            keranjangItem.name,
-                            keranjangItem.price,
-                            keranjangItem.quantity
-                        )
-                        qty = 0
-                        keranjangViewModel.deleteItem(tempItem)
-                    } else {
-                        val tempItem = KeranjangItem(
-                            keranjangItem.name,
-                            keranjangItem.price,
-                            keranjangItem.quantity - 1
-                        )
-                        val tempMenuItem = MenuItem(
-                            keranjangItem.name,
-                            keranjangItem.price,
-                            keranjangItem.sold,
-                            keranjangItem.desc,
-                            keranjangItem.type,
-                            keranjangItem.quantity - 1
-                        )
-                        qty -= 1
-                        viewModel.updateItem(tempMenuItem)
-                        keranjangViewModel.updateItem(tempItem)
-                    }
-                }
-                menuCount.text = qty.toString()
+            val tempQuantity = keranjangItem.quantity - 1
+            /* remove items if already 0 */
+            if (tempQuantity <= 0) {
+                val tempItem = KeranjangItem(
+                    keranjangItem.name,
+                    keranjangItem.price,
+                    keranjangItem.quantity
+                )
+                qty = 0
+                keranjangViewModel.deleteItem(tempItem)
+            } else {
+                val tempItem = KeranjangItem(
+                    keranjangItem.name,
+                    keranjangItem.price,
+                    keranjangItem.quantity - 1
+                )
+                val tempMenuItem = MenuItem(
+                    keranjangItem.name,
+                    keranjangItem.price,
+                    keranjangItem.sold,
+                    keranjangItem.desc,
+                    keranjangItem.type,
+                    keranjangItem.quantity - 1
+                )
+                qty -= 1
+                keranjangViewModel.updateItem(tempItem)
             }
+            binding.menuCount.text = qty.toString()
         }
     }
     
@@ -163,7 +168,6 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             holder.bind(item);
         } else if (holder is MenuItemViewHolder && item is MenuItem) {
             holder.bind(item);
-            holder.updateItem(item)
         }
     }
 }

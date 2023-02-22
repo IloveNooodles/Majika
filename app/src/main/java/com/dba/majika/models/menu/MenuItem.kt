@@ -28,6 +28,5 @@ fun MenuItem.asDatabaseModel(): MenuDatabaseEntity {
         sold = sold,
         desc = desc,
         type = type,
-        quantity = quantity
     )
 }

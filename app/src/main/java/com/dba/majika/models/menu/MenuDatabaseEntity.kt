@@ -13,18 +13,17 @@ data class MenuDatabaseEntity constructor(
     val sold: Int,
     val desc: String,
     val type: String,
-    val quantity: Int,
 )
 
-fun List<MenuDatabaseEntity>.asDomainModel(): List<MenuListItem> {
-    val data = map {
+fun Map<MenuDatabaseEntity, Int>.asDomainModel(): List<MenuListItem> {
+    val data = map { it
         MenuItem(
-            name = it.name,
-            price = it.price,
-            sold = it.sold,
-            desc = it.desc,
-            type = it.type,
-            quantity = it.quantity
+            name = it.key.name,
+            price = it.key.price,
+            sold = it.key.sold,
+            desc = it.key.desc,
+            type = it.key.type,
+            quantity = it.value
         )
     }
     val ret = mutableListOf<MenuListItem>()

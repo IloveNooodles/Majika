@@ -5,15 +5,14 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.dba.majika.database.getDatabase
 import com.dba.majika.models.menu.*
-import com.dba.majika.repository.KeranjangRepository
 import com.dba.majika.repository.MenuRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
 class MenuViewModel(application: Application) : AndroidViewModel(application) {
-    
-    private val repository = MenuRepository(getDatabase(application))
-    private val keranjangRepository = KeranjangRepository(getDatabase(application))
+    private val keranjangRepository = com.dba.majika.repository.KeranjangRepository
+    private val repository = MenuRepository(getDatabase(application), keranjangRepository)
+
     
     val menu: MediatorLiveData<List<MenuListItem>> = MediatorLiveData();
     val filter: MutableLiveData<String> = MutableLiveData();
@@ -33,12 +32,6 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         refreshData()
-    }
-    
-    fun updateItem(item: MenuItem) {
-        viewModelScope.launch {
-            repository.updateItems(item)
-        }
     }
     
     fun refreshData() = viewModelScope.launch {

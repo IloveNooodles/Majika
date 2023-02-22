@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dba.majika.adapters.MenuItemAdapter
 import com.dba.majika.databinding.FragmentMenuBinding
+import com.dba.majika.models.keranjang.KeranjangItem
 import com.dba.majika.models.menu.MenuListItem
 import com.dba.majika.ui.keranjang.KeranjangViewModel
 
@@ -67,6 +68,12 @@ class MenuFragment : Fragment(), SensorEventListener {
         viewModel.menu.observe(viewLifecycleOwner, Observer<List<MenuListItem>> { item ->
             item?.apply {
                 (binding.menuRecyclerView.adapter as MenuItemAdapter).list = item
+            }
+        })
+
+        keranjangViewModel.keranjangItems.observe(viewLifecycleOwner, Observer<List<KeranjangItem>> { item ->
+            item?.apply {
+                (binding.menuRecyclerView.adapter as MenuItemAdapter).keranjangItemList = item
             }
         })
         

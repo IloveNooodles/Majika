@@ -15,7 +15,6 @@ class KeranjangAdapter(viewModel: KeranjangViewModel) :
             field = value
             notifyDataSetChanged()
         }
-    
     inner class KeranjangViewHolder(
         private val binding: ListKeranjangBinding,
     ) :
