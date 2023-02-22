@@ -63,6 +63,18 @@ class KeranjangFragment : Fragment() {
                 (binding.keranjangRecyclerView.adapter as KeranjangAdapter).list = it
             }
         })
+
+        viewModel.totalHarga.observe(viewLifecycleOwner, Observer<Int> {
+            it?.apply {
+                val totalHarga = "Rp" + it.toString()
+                    .reversed()
+                    .chunked(3)
+                    .joinToString(".")
+                    .reversed()
+
+                binding.keranjangHarga.text = totalHarga
+            }
+        })
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

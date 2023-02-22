@@ -11,7 +11,19 @@ class KeranjangViewModel(application: Application) : AndroidViewModel(applicatio
     private val repository = com.dba.majika.repository.KeranjangRepository
     
     val keranjangItems = repository.keranjangItems
-    
+    val totalHarga: MediatorLiveData<Int> = MediatorLiveData()
+
+    init{
+        totalHarga.addSource(keranjangItems){
+            var total = 0
+            for(c in it){
+                total += c.total * c.price
+            }
+            totalHarga.value = total
+        }
+    }
+
+
     fun updateItem(keranjangItem: KeranjangItem) {
         runBlocking {
             viewModelScope.launch {
