@@ -148,6 +148,14 @@ class TwibbonFragment : Fragment() {
         }
         val cameraIds: Array<String> = cameraManager.cameraIdList
         Log.d("camera", "ids:${cameraIds.size}")
+
+        if (cameraIds.isEmpty()) {
+            Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
+                .show()
+            cameraAvailable = false
+            return
+        }
+
         cameraId = cameraIds[0]
         for (id in cameraIds) {
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(id)
@@ -199,7 +207,7 @@ class TwibbonFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun connectCamera() {
-        if (::cameraManager.isInitialized && ::cameraId.isInitialized)
+        if (::cameraManager.isInitialized && ::cameraId.isInitialized && cameraAvailable)
             cameraManager.openCamera(cameraId, cameraStateCallback, backgroundHandler)
         else
             Log.d("camera", "camera failed to connect")
