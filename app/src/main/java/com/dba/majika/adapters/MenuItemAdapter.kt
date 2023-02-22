@@ -24,8 +24,7 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             field = value
             notifyDataSetChanged()
         }
-    
-    val viewModel = viewModel
+
     val keranjangViewModel = keranjangViewModel
     
     inner class MenuItemViewHolder(private val binding: ListMenuBinding) :
@@ -35,6 +34,10 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             with(this.binding) {
                 menuItemName.text = item.name
                 menuItemPrice.text = "Rp." + item.price.toString()
+                    .reversed()
+                    .chunked(3)
+                    .joinToString(".")
+                    .reversed()
                 menuItemSold.text = "Sold: " + item.sold.toString()
                 menuItemDescription.text = item.desc
                 menuCount.text = item.quantity.toString()
