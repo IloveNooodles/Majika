@@ -29,13 +29,13 @@ import java.util.*
 
 
 class TwibbonFragment : Fragment() {
-
+    
     private var _binding: FragmentTwibbonBinding? = null
-
+    
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    
     private lateinit var textureView: TextureView
     private lateinit var cameraId: String
     private lateinit var backgroundHandlerThread: HandlerThread
@@ -48,14 +48,14 @@ class TwibbonFragment : Fragment() {
     private lateinit var previewSize: Size
     private var cameraPermission = false
     private var cameraAvailable = false
-
+    
     private var orientations: SparseIntArray = SparseIntArray(4).apply {
         append(Surface.ROTATION_0, 0)
         append(Surface.ROTATION_90, 90)
         append(Surface.ROTATION_180, 180)
         append(Surface.ROTATION_270, 270)
     }
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!wasCameraPermissionWasGiven()) {
@@ -76,7 +76,7 @@ class TwibbonFragment : Fragment() {
             }.launch(Manifest.permission.CAMERA)
         }
     }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,51 +84,51 @@ class TwibbonFragment : Fragment() {
     ): View {
         val homeViewModel =
             ViewModelProvider(this).get(TwibbonViewModel::class.java)
-
+        
         _binding = FragmentTwibbonBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        
         textureView = binding.cameraPreview
         return root
     }
-
+    
     override fun onResume() {
         super.onResume()
         startBackgroundThread()
         Log.d("onStart", cameraPermission.toString())
-
+        
         if (cameraPermission) {
             cameraManager =
                 requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
             setupCamera()
-            if (cameraAvailable)binding.takePhotoBtn.apply {
+            if (cameraAvailable) binding.takePhotoBtn.apply {
                 setOnClickListener {
                     takePhoto()
                 }
             }
-
+            
             textureView.surfaceTextureListener = surfaceTextureListener
             if (textureView.isAvailable)
                 connectCamera()
-
+            
         }
     }
-
+    
     override fun onPause() {
         super.onPause()
         Log.d("camera", "on pause")
-
+        
         if (::cameraDevice.isInitialized) cameraDevice.close()
         if (::cameraCaptureSession.isInitialized) cameraCaptureSession.close()
         cameraAvailable = false;
         stopBackgroundThread()
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
+    
     /* Camera stuff */
     private fun wasCameraPermissionWasGiven(): Boolean {
         if (ContextCompat.checkSelfPermission(
@@ -141,31 +141,31 @@ class TwibbonFragment : Fragment() {
         }
         return cameraPermission
     }
-
+    
     private fun setupCamera() {
         if (!::cameraManager.isInitialized) {
             return
         }
         val cameraIds: Array<String> = cameraManager.cameraIdList
         Log.d("camera", "ids:${cameraIds.size}")
-
+        
         if (cameraIds.isEmpty()) {
             Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
                 .show()
             cameraAvailable = false
             return
         }
-
+        
         cameraId = cameraIds[0]
         for (id in cameraIds) {
             val cameraCharacteristics = cameraManager.getCameraCharacteristics(id)
-
+            
             //If we want to choose the rear facing camera instead of the front facing one
             if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
                 Log.d("camera", "front")
                 val streamConfigurationMap: StreamConfigurationMap? =
                     cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-
+                
                 if (streamConfigurationMap != null) {
                     previewSize =
                         cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)!!
@@ -188,13 +188,12 @@ class TwibbonFragment : Fragment() {
                 Log.d("camera", "id:${cameraId.toString()}")
                 return
             }
-            Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
-                .show()
-            cameraAvailable = false
-
         }
+        Toast.makeText(requireActivity(), "Front camera cannot be accessed", Toast.LENGTH_SHORT)
+            .show()
+        cameraAvailable = false
     }
-
+    
     private fun takePhoto() {
         if (!cameraAvailable) return
         captureRequestBuilder =
@@ -204,7 +203,7 @@ class TwibbonFragment : Fragment() {
         captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
         cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, null)
     }
-
+    
     @SuppressLint("MissingPermission")
     private fun connectCamera() {
         if (::cameraManager.isInitialized && ::cameraId.isInitialized && cameraAvailable)
@@ -212,8 +211,8 @@ class TwibbonFragment : Fragment() {
         else
             Log.d("camera", "camera failed to connect")
     }
-
-
+    
+    
     private val surfaceTextureListener = object : TextureView.SurfaceTextureListener {
         @SuppressLint("MissingPermission")
         override fun onSurfaceTextureAvailable(texture: SurfaceTexture, width: Int, height: Int) {
@@ -222,45 +221,45 @@ class TwibbonFragment : Fragment() {
                 connectCamera()
             }
         }
-
+        
         override fun onSurfaceTextureSizeChanged(texture: SurfaceTexture, width: Int, height: Int) {
-
+        
         }
-
+        
         override fun onSurfaceTextureDestroyed(texture: SurfaceTexture): Boolean {
             return true
         }
-
+        
         override fun onSurfaceTextureUpdated(texture: SurfaceTexture) {
-
+        
         }
     }
-
+    
     /**
      * Camera State Callbacks
      */
-
+    
     private val cameraStateCallback = object : CameraDevice.StateCallback() {
         override fun onOpened(camera: CameraDevice) {
             cameraDevice = camera
             val surfaceTexture: SurfaceTexture? = textureView.surfaceTexture
             surfaceTexture?.setDefaultBufferSize(previewSize.width, previewSize.height)
             val previewSurface: Surface = Surface(surfaceTexture)
-
+            
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             captureRequestBuilder.addTarget(previewSurface)
-
+            
             cameraDevice.createCaptureSession(
                 listOf(previewSurface, imageReader.surface),
                 captureStateCallback,
                 null
             )
         }
-
+        
         override fun onDisconnected(cameraDevice: CameraDevice) {
-
+        
         }
-
+        
         override fun onError(cameraDevice: CameraDevice, error: Int) {
             val errorMsg = when (error) {
                 ERROR_CAMERA_DEVICE -> "Fatal (device)"
@@ -273,19 +272,19 @@ class TwibbonFragment : Fragment() {
             Log.e("camera", "Error when trying to connect camera $errorMsg")
         }
     }
-
+    
     /**
      * Capture State Callback
      */
-
+    
     private val captureStateCallback = object : CameraCaptureSession.StateCallback() {
         override fun onConfigureFailed(session: CameraCaptureSession) {
-
+            Log.d("D", "CONFIGURED FAILEDD")
         }
-
+        
         override fun onConfigured(session: CameraCaptureSession) {
             cameraCaptureSession = session
-
+            
             cameraCaptureSession.setRepeatingRequest(
                 captureRequestBuilder.build(),
                 null,
@@ -293,12 +292,12 @@ class TwibbonFragment : Fragment() {
             )
         }
     }
-
+    
     /**
      * Capture Callback
      */
     private val captureCallback = object : CameraCaptureSession.CaptureCallback() {
-
+        
         override fun onCaptureStarted(
             session: CameraCaptureSession,
             request: CaptureRequest,
@@ -306,24 +305,24 @@ class TwibbonFragment : Fragment() {
             frameNumber: Long
         ) {
         }
-
+        
         override fun onCaptureProgressed(
             session: CameraCaptureSession,
             request: CaptureRequest,
             partialResult: CaptureResult
         ) {
         }
-
+        
         override fun onCaptureCompleted(
             session: CameraCaptureSession,
             request: CaptureRequest,
             result: TotalCaptureResult
         ) {
-
+        
         }
     }
-
-
+    
+    
     /**
      * ImageAvailable Listener
      */
@@ -333,7 +332,7 @@ class TwibbonFragment : Fragment() {
         val bytes = ByteArray(buffer.capacity())
         buffer.get(bytes)
         val bitmapImage: Bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
-
+        
         val d = requireActivity().resources.getIdentifier(
             "@drawable/twibbon",
             "drawable",
@@ -349,7 +348,7 @@ class TwibbonFragment : Fragment() {
             twibbon.width,
             twibbon.height
         )
-
+        
         val matrix = Matrix()
         matrix.postRotate(requireActivity().windowManager.defaultDisplay.rotation.toFloat())
         val rotatedBmp: Bitmap = Bitmap.createBitmap(
@@ -366,7 +365,7 @@ class TwibbonFragment : Fragment() {
         val canvas = Canvas(bmOverlay)
         canvas.drawBitmap(rotatedBmp, Matrix(), null)
         canvas.drawBitmap(twibbon, 0f, 0f, null)
-
+        
         val toast = Toast(context)
         val view = ImageView(context)
         view.setImageBitmap(bmOverlay)
@@ -376,7 +375,7 @@ class TwibbonFragment : Fragment() {
         Log.d("image", image.toString())
         image.close()
     }
-
+    
     /**
      * Background Thread
      */
@@ -385,7 +384,7 @@ class TwibbonFragment : Fragment() {
         backgroundHandlerThread.start()
         backgroundHandler = Handler(backgroundHandlerThread.looper)
     }
-
+    
     private fun stopBackgroundThread() {
         backgroundHandlerThread.quitSafely()
         backgroundHandlerThread.join()
