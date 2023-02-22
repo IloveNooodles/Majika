@@ -1,6 +1,5 @@
 package com.dba.majika.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -51,7 +50,6 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
         }
         private fun addItem(keranjangItem: MenuItem, binding: ListMenuBinding){
             var isAlreadyExist = false
-            Log.d("addItem", keranjangItemList.size.toString())
             for (item in keranjangItemList) {
                 if (keranjangItem.name == item.name) {
                     isAlreadyExist = true
@@ -62,15 +60,6 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             val tempItem = KeranjangItem(
                 keranjangItem.name,
                 keranjangItem.price,
-                keranjangItem.quantity + 1
-            )
-
-            val tempMenuItem = MenuItem(
-                keranjangItem.name,
-                keranjangItem.price,
-                keranjangItem.sold,
-                keranjangItem.desc,
-                keranjangItem.type,
                 keranjangItem.quantity + 1
             )
             if (isAlreadyExist) {
@@ -107,14 +96,6 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
                 val tempItem = KeranjangItem(
                     keranjangItem.name,
                     keranjangItem.price,
-                    keranjangItem.quantity - 1
-                )
-                val tempMenuItem = MenuItem(
-                    keranjangItem.name,
-                    keranjangItem.price,
-                    keranjangItem.sold,
-                    keranjangItem.desc,
-                    keranjangItem.type,
                     keranjangItem.quantity - 1
                 )
                 qty -= 1
