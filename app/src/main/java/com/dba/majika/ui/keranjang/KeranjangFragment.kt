@@ -47,6 +47,7 @@ class KeranjangFragment : Fragment() {
         binding.keranjangButtonBayar.setOnClickListener {
             val intent = Intent(context, PembayaranActivity::class.java)
             intent.putExtra("total", totalHarga)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             startActivity(intent)
         }
         
@@ -84,5 +85,5 @@ class KeranjangFragment : Fragment() {
             }
         })
     }
-
+    
 }
