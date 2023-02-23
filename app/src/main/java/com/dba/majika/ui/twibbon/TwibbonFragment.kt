@@ -196,12 +196,21 @@ class TwibbonFragment : Fragment() {
     
     private fun takePhoto() {
         if (!cameraAvailable) return
-        captureRequestBuilder =
-            cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
-        captureRequestBuilder.addTarget(imageReader.surface)
-        val rotation = requireActivity().windowManager.defaultDisplay.rotation
-        captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
-        cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, null)
+        try {
+            captureRequestBuilder =
+                cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
+            captureRequestBuilder.addTarget(imageReader.surface)
+            val rotation = requireActivity().windowManager.defaultDisplay.rotation
+            captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
+            cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, null)
+        } catch (e: Exception) {
+            Log.e("E", e.toString())
+            Toast.makeText(
+                requireActivity(),
+                "Error when accessing camera",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
     
     @SuppressLint("MissingPermission")
@@ -348,9 +357,11 @@ class TwibbonFragment : Fragment() {
             twibbon.width,
             twibbon.height
         )
-
-        val sensorRotation = cameraManager.getCameraCharacteristics(cameraId).get(CameraCharacteristics.SENSOR_ORIENTATION)
-        val activityRotation = orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
+        
+        val sensorRotation = cameraManager.getCameraCharacteristics(cameraId)
+            .get(CameraCharacteristics.SENSOR_ORIENTATION)
+        val activityRotation =
+            orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
         Log.d("rotate", sensorRotation.toString())
         Log.d("rotate", activityRotation.toString())
         val totalRotation = (activityRotation.toFloat() + sensorRotation!!.toFloat() + 270F) % 360
