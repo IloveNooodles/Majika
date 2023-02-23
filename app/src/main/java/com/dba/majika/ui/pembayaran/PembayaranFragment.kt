@@ -2,6 +2,7 @@ package com.dba.majika.ui.pembayaran
 
 import android.Manifest
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -26,6 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class PembayaranFragment : Fragment() {
     companion object {
         fun newInstance() = PembayaranFragment()
@@ -45,6 +47,12 @@ class PembayaranFragment : Fragment() {
     ): View {
         _binding = FragmentPembayaranBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val extras = requireActivity().intent.extras
+        if (extras != null) {
+            val value = extras.getString("total")
+            binding.pembayaranTotal.text = "Total: $value"
+        }
         
         if (!wasCameraPermissionWasGiven()) {
             registerForActivityResult(
