@@ -108,12 +108,16 @@ class PembayaranFragment : Fragment() {
                             KeranjangRepository.deleteAll()
                             
                             // Redirect to main activity (menu)
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                val intent = Intent(context, MainActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                                startActivity(intent)
-                            }, 5000)
                             
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                try {
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                    startActivity(intent)
+                                } catch (e: Exception) {
+                                    Log.e("E", e.toString())
+                                }
+                            }, 5000)
                         } else if (result?.status == "FAILED") {
                             Log.d("payment", "failed")
                             binding.pembayaranImage.setImageResource(R.drawable.ic_decline)
