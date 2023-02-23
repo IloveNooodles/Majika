@@ -79,6 +79,8 @@ class MenuFragment : Fragment(), SensorEventListener {
         
         // search view listener
         val searchView = binding.searchView
+        searchView.clearFocus();
+        searchView.setOnClickListener { searchView.isIconified = false }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -86,12 +88,14 @@ class MenuFragment : Fragment(), SensorEventListener {
                 if (query != null) {
                     viewModel.filter.value = query
                 }
+                searchView.clearFocus();
                 return true
             }
             
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null && newText.length == 0) {
                     viewModel.filter.value = newText
+                    searchView.clearFocus();
                 }
                 Log.d("SearchView", "change")
                 return false
