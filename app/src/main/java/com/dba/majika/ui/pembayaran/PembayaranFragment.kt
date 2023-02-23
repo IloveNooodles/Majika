@@ -2,7 +2,6 @@ package com.dba.majika.ui.pembayaran
 
 import android.Manifest
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
