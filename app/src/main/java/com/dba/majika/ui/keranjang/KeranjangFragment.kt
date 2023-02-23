@@ -22,6 +22,7 @@ class KeranjangFragment : Fragment() {
     }
     
     private var _binding: FragmentKeranjangBinding? = null
+    private var totalHarga: String = "Rp 0"
     
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -45,6 +46,7 @@ class KeranjangFragment : Fragment() {
         
         binding.keranjangButtonBayar.setOnClickListener {
             val intent = Intent(context, PembayaranActivity::class.java)
+            intent.putExtra("total", totalHarga)
             startActivity(intent)
         }
         
@@ -72,7 +74,7 @@ class KeranjangFragment : Fragment() {
         
         viewModel.totalHarga.observe(viewLifecycleOwner, Observer<Int> {
             it?.apply {
-                val totalHarga = "Rp" + it.toString()
+                totalHarga = "Rp" + it.toString()
                     .reversed()
                     .chunked(3)
                     .joinToString(".")

@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_normal"
         android:fontFamily="@font/inter"
-        android:text="@string/total"
+        tools:text="Total: Rp 0"
         android:textSize="@dimen/font_title"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/pembayaran_status"
