@@ -46,7 +46,7 @@ class PembayaranFragment : Fragment() {
     ): View {
         _binding = FragmentPembayaranBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        
         val extras = requireActivity().intent.extras
         if (extras != null) {
             val value = extras.getString("total")
@@ -118,6 +118,13 @@ class PembayaranFragment : Fragment() {
                                     Log.e("E", e.toString())
                                 }
                             }, 5000)
+                            
+                            Toast.makeText(
+                                requireActivity(),
+                                "Payment success, automated redirect to menu in 5 seconds",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            
                         } else if (result?.status == "FAILED") {
                             Log.d("payment", "failed")
                             binding.pembayaranImage.setImageResource(R.drawable.ic_decline)
