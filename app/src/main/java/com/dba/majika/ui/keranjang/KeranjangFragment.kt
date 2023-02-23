@@ -62,6 +62,11 @@ class KeranjangFragment : Fragment() {
         viewModel.keranjangItems.observe(viewLifecycleOwner, Observer<List<KeranjangItem>> {
             it?.apply {
                 (binding.keranjangRecyclerView.adapter as KeranjangAdapter).list = it
+                if (it.size <= 0) {
+                    binding.keranjangButtonBayar.visibility = View.GONE
+                } else {
+                    binding.keranjangButtonBayar.visibility = View.VISIBLE
+                }
             }
         })
         

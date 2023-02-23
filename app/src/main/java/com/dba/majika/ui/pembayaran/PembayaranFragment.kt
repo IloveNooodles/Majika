@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -99,11 +101,11 @@ class PembayaranFragment : Fragment() {
                             KeranjangRepository.deleteAll()
                             
                             // Redirect to main activity (menu)
-                            Thread.sleep(5_000)
-                            val intent = Intent(context, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                            startActivity(intent)
-                            requireActivity().finish()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                startActivity(intent)
+                            }, 5000)
                             
                         } else if (result?.status == "FAILED") {
                             Log.d("payment", "failed")
