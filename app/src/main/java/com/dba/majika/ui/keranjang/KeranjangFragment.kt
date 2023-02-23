@@ -42,6 +42,7 @@ class KeranjangFragment : Fragment() {
     ): View? {
         
         _binding = FragmentKeranjangBinding.inflate(inflater, container, false)
+        
         binding.keranjangButtonBayar.setOnClickListener {
             val intent = Intent(context, PembayaranActivity::class.java)
             startActivity(intent)
@@ -63,7 +64,7 @@ class KeranjangFragment : Fragment() {
                 (binding.keranjangRecyclerView.adapter as KeranjangAdapter).list = it
             }
         })
-
+        
         viewModel.totalHarga.observe(viewLifecycleOwner, Observer<Int> {
             it?.apply {
                 val totalHarga = "Rp" + it.toString()
@@ -71,7 +72,7 @@ class KeranjangFragment : Fragment() {
                     .chunked(3)
                     .joinToString(".")
                     .reversed()
-
+                
                 binding.keranjangHarga.text = totalHarga
             }
         })

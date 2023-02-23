@@ -24,16 +24,16 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             field = value
             notifyDataSetChanged()
         }
-
+    
     val keranjangViewModel = keranjangViewModel
     
     inner class MenuItemViewHolder(private val binding: ListMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+        
         fun bind(item: MenuItem) {
             with(this.binding) {
                 menuItemName.text = item.name
-                menuItemPrice.text = "Rp." + item.price.toString()
+                menuItemPrice.text = "Rp" + item.price.toString()
                     .reversed()
                     .chunked(3)
                     .joinToString(".")
@@ -45,13 +45,14 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
                     addItem(item, binding)
                     notifyDataSetChanged()
                 }
-                reduceItemButton.setOnClickListener{
+                reduceItemButton.setOnClickListener {
                     deleteItem(item, binding)
                     notifyDataSetChanged()
                 }
             }
         }
-        private fun addItem(keranjangItem: MenuItem, binding: ListMenuBinding){
+        
+        private fun addItem(keranjangItem: MenuItem, binding: ListMenuBinding) {
             var isAlreadyExist = false
             for (item in keranjangItemList) {
                 if (keranjangItem.name == item.name) {
@@ -75,8 +76,8 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
             }
             binding.menuCount.text = qty.toString()
         }
-
-        private fun deleteItem(keranjangItem: MenuItem, binding: ListMenuBinding){
+        
+        private fun deleteItem(keranjangItem: MenuItem, binding: ListMenuBinding) {
             var isAlreadyExist = false
             for (item in keranjangItemList) {
                 if (keranjangItem.name == item.name) {

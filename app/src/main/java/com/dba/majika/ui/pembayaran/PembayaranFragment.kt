@@ -28,22 +28,22 @@ class PembayaranFragment : Fragment() {
     companion object {
         fun newInstance() = PembayaranFragment()
     }
-
+    
     private var _binding: FragmentPembayaranBinding? = null
     private var cameraPermission = false
     private lateinit var codeScanner: CodeScanner
-
+    
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPembayaranBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        
         if (!wasCameraPermissionWasGiven()) {
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -60,10 +60,10 @@ class PembayaranFragment : Fragment() {
                 }
             }.launch(Manifest.permission.CAMERA)
         }
-
+        
         return root
     }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         codeScanner = CodeScanner(requireContext(), binding.pembayaranQrCode)
         codeScanner.decodeCallback = DecodeCallback {
@@ -75,12 +75,12 @@ class PembayaranFragment : Fragment() {
                         binding.pembayaranStatus.text = getText(R.string.payment_error)
                         binding.pembayaranStatusDescription.text =
                             getText(R.string.payment_error_network)
-
+                        
                         // Restart
                         codeScanner.stopPreview()
                         codeScanner.startPreview()
                     }
-
+                    
                     override fun onResponse(
                         call: Call<PembayaranResponse>,
                         response: Response<PembayaranResponse>
@@ -94,34 +94,35 @@ class PembayaranFragment : Fragment() {
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_payed)
                             codeScanner.releaseResources()
-
+                            
                             // Empty keranjang
                             KeranjangRepository.deleteAll()
-
+                            
                             // Redirect to main activity (menu)
                             Thread.sleep(5_000)
                             val intent = Intent(context, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
                             startActivity(intent)
-
+                            requireActivity().finish()
+                            
                         } else if (result?.status == "FAILED") {
                             Log.d("payment", "failed")
                             binding.pembayaranImage.setImageResource(R.drawable.ic_decline)
                             binding.pembayaranStatus.text = getText(R.string.payment_failed)
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_not_payed)
-
+                            
                             // Restart
                             codeScanner.stopPreview()
                             codeScanner.startPreview()
-
+                            
                         } else {
                             Log.d("payment", "bad request")
                             binding.pembayaranImage.setImageResource(R.drawable.question_mark_24px)
                             binding.pembayaranStatus.text = getText(R.string.payment_error)
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_error_qr)
-
+                            
                             // Restart
                             codeScanner.stopPreview()
                             codeScanner.startPreview()
@@ -131,7 +132,7 @@ class PembayaranFragment : Fragment() {
             )
         }
     }
-
+    
     private fun wasCameraPermissionWasGiven(): Boolean {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -143,12 +144,12 @@ class PembayaranFragment : Fragment() {
         }
         return cameraPermission
     }
-
+    
     override fun onResume() {
         super.onResume()
         codeScanner.startPreview()
     }
-
+    
     override fun onPause() {
         codeScanner.releaseResources()
         super.onPause()

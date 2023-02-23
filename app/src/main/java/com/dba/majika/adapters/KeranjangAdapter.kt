@@ -15,6 +15,7 @@ class KeranjangAdapter(viewModel: KeranjangViewModel) :
             field = value
             notifyDataSetChanged()
         }
+    
     inner class KeranjangViewHolder(
         private val binding: ListKeranjangBinding,
     ) :
@@ -22,7 +23,11 @@ class KeranjangAdapter(viewModel: KeranjangViewModel) :
         fun bind(item: KeranjangItem) {
             with(this.binding) {
                 keranjangCardTitle.text = item.name
-                keranjangCardPrice.text = item.price.toString()
+                keranjangCardPrice.text = "Rp" + item.price.toString()
+                    .reversed()
+                    .chunked(3)
+                    .joinToString(".")
+                    .reversed()
                 keranjangItemCount.text = item.total.toString()
             }
         }
