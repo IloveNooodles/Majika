@@ -200,7 +200,9 @@ class TwibbonFragment : Fragment() {
             captureRequestBuilder =
                 cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
             captureRequestBuilder.addTarget(imageReader.surface)
-            val rotation = requireActivity().windowManager.defaultDisplay.rotation
+            var rotation = requireActivity().windowManager.defaultDisplay.rotation
+            rotation += cameraManager.getCameraCharacteristics(cameraId)
+                .get(CameraCharacteristics.SENSOR_ORIENTATION)!!
             captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
             cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, null)
         } catch (e: Exception) {
