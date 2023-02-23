@@ -348,9 +348,15 @@ class TwibbonFragment : Fragment() {
             twibbon.width,
             twibbon.height
         )
+
+        val sensorRotation = cameraManager.getCameraCharacteristics(cameraId).get(CameraCharacteristics.SENSOR_ORIENTATION)
+        val activityRotation = orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
+        Log.d("rotate", sensorRotation.toString())
+        Log.d("rotate", activityRotation.toString())
+        val totalRotation = (activityRotation.toFloat() + sensorRotation!!.toFloat() + 270F) % 360
         
         val matrix = Matrix()
-        matrix.postRotate(requireActivity().windowManager.defaultDisplay.rotation.toFloat())
+        matrix.postRotate(totalRotation)
         val rotatedBmp: Bitmap = Bitmap.createBitmap(
             scaledBitmap,
             0,
