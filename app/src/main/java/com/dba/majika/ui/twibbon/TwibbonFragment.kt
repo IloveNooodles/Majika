@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dba.majika.databinding.FragmentTwibbonBinding
-import java.lang.Float.max
 import java.nio.ByteBuffer
 import java.util.*
 
@@ -203,7 +202,9 @@ class TwibbonFragment : Fragment() {
             var rotation = requireActivity().windowManager.defaultDisplay.rotation
             rotation += cameraManager.getCameraCharacteristics(cameraId)
                 .get(CameraCharacteristics.SENSOR_ORIENTATION)!!
-            captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientations.get(rotation))
+            rotation = (rotation + 270) % 360;
+            Log.d("rotation", rotation.toString())
+            captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, rotation)
             cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, null)
         } catch (e: Exception) {
             Log.e("E", e.toString())
@@ -350,26 +351,15 @@ class TwibbonFragment : Fragment() {
             requireParentFragment().requireContext().packageName
         )
         val twibbon: Bitmap = BitmapFactory.decodeResource(requireContext().resources, d)
-        val startX = max(bitmapImage.width / 2f - twibbon.width / 2f, 0f)
-        val startY = max(bitmapImage.height / 2f - twibbon.height / 2f, 0f)
-        val scaledBitmap: Bitmap = Bitmap.createBitmap(
-            bitmapImage,
-            startX.toInt(),
-            startY.toInt(),
-            twibbon.width,
-            twibbon.height
-        )
-        
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmapImage, twibbon.width, twibbon.height, false)
         val sensorRotation = cameraManager.getCameraCharacteristics(cameraId)
             .get(CameraCharacteristics.SENSOR_ORIENTATION)
         val activityRotation =
             orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
-        Log.d("rotate", sensorRotation.toString())
-        Log.d("rotate", activityRotation.toString())
-        val totalRotation = (activityRotation.toFloat() + sensorRotation!!.toFloat() + 270F) % 360
+        val totalRotation = (activityRotation + sensorRotation!! + 270) % 360
         
         val matrix = Matrix()
-        matrix.postRotate(totalRotation)
+        matrix.postRotate(0f)
         val rotatedBmp: Bitmap = Bitmap.createBitmap(
             scaledBitmap,
             0,
