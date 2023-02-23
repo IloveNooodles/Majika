@@ -74,13 +74,12 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
                 keranjangViewModel.insertItem(tempItem)
                 qty = 1
             }
-            binding.menuCount.text = qty.toString()
         }
         
         private fun deleteItem(keranjangItem: MenuItem, binding: ListMenuBinding) {
             var isAlreadyExist = false
             for (item in keranjangItemList) {
-                if (keranjangItem.name == item.name) {
+                if (keranjangItem.name == item.name && keranjangItem.price == item.price) {
                     isAlreadyExist = true
                     break
                 }
@@ -105,7 +104,6 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
                 qty -= 1
                 keranjangViewModel.updateItem(tempItem)
             }
-            binding.menuCount.text = qty.toString()
         }
     }
     

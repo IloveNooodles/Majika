@@ -30,7 +30,7 @@ class MenuRepository(private val database: MajikaDatabase, private val keranjang
             }
             for (c in keranjangData.value!!){
                 for (k in data.keys){
-                    if (k.name==c.name) data[k] = c.total
+                    if (k.name==c.name && k.price==c.price) data[k] = c.total
                 }
             }
             Log.d("Menu update", data.size.toString())
@@ -43,7 +43,7 @@ class MenuRepository(private val database: MajikaDatabase, private val keranjang
             for (c in menuData.value!!) data[c]=0
             for(c in it){
                 for (k in data.keys){
-                    if (k.name==c.name) data[k] = c.total
+                    if (k.name==c.name && k.price==c.price) data[k] = c.total
                 }
             }
             Log.d("Keranjang update", data.size.toString())
