@@ -1,13 +1,11 @@
 package com.dba.majika.models.menu;
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.util.*
 
 
-@Entity(tableName = "menu")
+@Entity(tableName = "menu", primaryKeys = ["name", "price"])
 data class MenuDatabaseEntity constructor(
-    @PrimaryKey
     val name: String,
     val price: Int,
     val sold: Int,

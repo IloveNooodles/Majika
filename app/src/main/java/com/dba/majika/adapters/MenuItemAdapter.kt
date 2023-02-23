@@ -55,7 +55,7 @@ class MenuItemAdapter(viewModel: MenuViewModel, keranjangViewModel: KeranjangVie
         private fun addItem(keranjangItem: MenuItem, binding: ListMenuBinding) {
             var isAlreadyExist = false
             for (item in keranjangItemList) {
-                if (keranjangItem.name == item.name) {
+                if (keranjangItem.name == item.name && keranjangItem.price == item.price) {
                     isAlreadyExist = true
                     break
                 }
