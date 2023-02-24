@@ -19,9 +19,11 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
 
 #### Menu
 <img alt="Menu" src="screenshot/Menu.jpg" width="200"/>
-
+<br>
+<br>
 <img alt="Filtered Menu" src="screenshot/Filtered Menu.jpg" width="200"/>
-
+<br>
+<br>
 <img alt="Landscape Menu" src="screenshot/Landscape Menu.jpg" height="200"/>
 
 #### Restaurants
@@ -35,7 +37,8 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
 
 #### Payment
 <img alt="Payment Successful" src="screenshot/Payment Successful.jpg" width="200"/>
-
+<br>
+<br>
 <img alt="Payment Failed" src="screenshot/Payment Failed.jpg" width="200"/>
 
 ## Team Members
@@ -50,8 +53,8 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
     <td>13520029</td>
     <td>Muhammad Garebaldhie Er Rahman</td>
     <td>
-        <li>Keranjang</li>
-        <li>Pembayaran</li>
+      - Keranjang<br>
+      - Pembayaran
     </td>
     <td>25 jam</td>
   </tr>
@@ -59,8 +62,8 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
     <td>13520071</td>
     <td>Wesly Giovano</td>
     <td>
-        <li>Daftar restoran</li>
-        <li>Pembayaran</li>
+      - Daftar restoran<br>
+      - Pembayaran
     </td>
     <td>25 jam</td>
   </tr>
@@ -68,9 +71,9 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
     <td>13520163</td>
     <td>Frederik Imanuel Louis</td>
     <td>
-        <li>Header dan navbar</li>
-        <li>Daftar menu</li>
-        <li>Twibbon</li>
+        - Header dan navbar<br>
+        - Daftar menu<br>
+        - Twibbon
     </td>
     <td>40 jam</td>
   </tr>
