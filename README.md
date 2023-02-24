@@ -15,28 +15,28 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
 
 ## Screenshots
 #### Splash Screen
-![Splash Screen]()
+<img alt="Splash Screen" src="screenshot/Splash Screen.jpg" width="200"/>
 
 #### Menu
-![Menu]()
+<img alt="Menu" src="screenshot/Menu.jpg" width="200"/>
 
-![Filtered Menu]()
+<img alt="Filtered Menu" src="screenshot/Filtered Menu.jpg" width="200"/>
 
-![Landscape Menu]()
+<img alt="Landscape Menu" src="screenshot/Landscape Menu.jpg" height="200"/>
 
 #### Restaurants
-![Restaurants]()
+<img alt="Restaurants" src="screenshot/Restaurants.jpg" width="200"/>
 
 #### Twibbon
-![Twibbon]()
+<img alt="Twibbon" src="screenshot/Twibbon.jpg" width="200"/>
 
 #### Cart
-![Keranjang]()
+<img alt="Keranjang" src="screenshot/Keranjang.jpg" width="200"/>
 
 #### Payment
-![Payment Successful]()
+<img alt="Payment Successful" src="screenshot/Payment Successful.jpg" width="200"/>
 
-![PaymentFailed]()
+<img alt="Payment Failed" src="screenshot/Payment Failed.jpg" width="200"/>
 
 ## Team Members
 <table>
@@ -50,27 +50,28 @@ Di sisi lain, pengguna juga dapat melakukan foto twibbon di aplikasi ini pula.
     <td>13520029</td>
     <td>Muhammad Garebaldhie Er Rahman</td>
     <td>
-        <li></li>
-        <li></li>
+        <li>Keranjang</li>
+        <li>Pembayaran</li>
     </td>
-    <td>xx jam</td>
+    <td>25 jam</td>
   </tr>
   <tr>
     <td>13520071</td>
     <td>Wesly Giovano</td>
     <td>
-        <li></li>
-        <li></li>
+        <li>Daftar restoran</li>
+        <li>Pembayaran</li>
     </td>
-    <td>xx jam</td>
+    <td>25 jam</td>
   </tr>
   <tr>
     <td>13520163</td>
     <td>Frederik Imanuel Louis</td>
     <td>
-        <li></li>
-        <li></li>
+        <li>Header dan navbar</li>
+        <li>Daftar menu</li>
+        <li>Twibbon</li>
     </td>
-    <td>xx jam</td>
+    <td>40 jam</td>
   </tr>
 </table>
