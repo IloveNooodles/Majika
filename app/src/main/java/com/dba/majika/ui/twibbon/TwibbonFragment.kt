@@ -359,7 +359,7 @@ class TwibbonFragment : Fragment() {
         val totalRotation = (activityRotation + sensorRotation!! + 270) % 360
         
         val matrix = Matrix()
-        matrix.postRotate(0f)
+        matrix.postRotate(totalRotation.toFloat())
         val rotatedBmp: Bitmap = Bitmap.createBitmap(
             scaledBitmap,
             0,

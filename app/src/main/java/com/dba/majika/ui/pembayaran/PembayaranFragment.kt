@@ -80,7 +80,6 @@ class PembayaranFragment : Fragment() {
                 object : Callback<PembayaranResponse> {
                     override fun onFailure(call: Call<PembayaranResponse>, t: Throwable) {
                         Log.d("retrofit", "qr error")
-                        binding.pembayaranImage.setImageResource(R.drawable.question_mark_24px)
                         binding.pembayaranStatus.text = getText(R.string.payment_error)
                         binding.pembayaranStatusDescription.text =
                             getText(R.string.payment_error_network)
@@ -98,7 +97,6 @@ class PembayaranFragment : Fragment() {
                         val result = response.body()
                         if (result?.status == "SUCCESS") {
                             Log.d("payment", "success")
-                            binding.pembayaranImage.setImageResource(R.drawable.ic_check_circle_24)
                             binding.pembayaranStatus.text = getText(R.string.payment_success)
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_payed)
@@ -127,7 +125,6 @@ class PembayaranFragment : Fragment() {
                             
                         } else if (result?.status == "FAILED") {
                             Log.d("payment", "failed")
-                            binding.pembayaranImage.setImageResource(R.drawable.ic_decline)
                             binding.pembayaranStatus.text = getText(R.string.payment_failed)
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_not_payed)
@@ -138,7 +135,6 @@ class PembayaranFragment : Fragment() {
                             
                         } else {
                             Log.d("payment", "bad request")
-                            binding.pembayaranImage.setImageResource(R.drawable.question_mark_24px)
                             binding.pembayaranStatus.text = getText(R.string.payment_error)
                             binding.pembayaranStatusDescription.text =
                                 getText(R.string.payment_error_qr)
