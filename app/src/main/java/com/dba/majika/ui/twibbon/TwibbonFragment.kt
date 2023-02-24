@@ -199,7 +199,7 @@ class TwibbonFragment : Fragment() {
             captureRequestBuilder =
                 cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE)
             captureRequestBuilder.addTarget(imageReader.surface)
-            var rotation = requireActivity().windowManager.defaultDisplay.rotation
+            var rotation = 360 - requireActivity().windowManager.defaultDisplay.rotation
             rotation += cameraManager.getCameraCharacteristics(cameraId)
                 .get(CameraCharacteristics.SENSOR_ORIENTATION)!!
             rotation = (rotation + 270) % 360;
@@ -352,14 +352,15 @@ class TwibbonFragment : Fragment() {
         )
         val twibbon: Bitmap = BitmapFactory.decodeResource(requireContext().resources, d)
         val scaledBitmap = Bitmap.createScaledBitmap(bitmapImage, twibbon.width, twibbon.height, false)
-        val sensorRotation = cameraManager.getCameraCharacteristics(cameraId)
-            .get(CameraCharacteristics.SENSOR_ORIENTATION)
         val activityRotation =
-            orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
-        val totalRotation = (activityRotation + sensorRotation!! + 270) % 360
+            360 - orientations.get(requireActivity().windowManager.defaultDisplay.rotation)
+        var sensorRotation = cameraManager.getCameraCharacteristics(cameraId)
+            .get(CameraCharacteristics.SENSOR_ORIENTATION)!!
+        val totalRotation = (activityRotation + sensorRotation) % 360
         
         val matrix = Matrix()
-        matrix.postRotate(totalRotation.toFloat())
+        matrix.postRotate(270f)
+        matrix.postScale(1F, -1F, (scaledBitmap.width/2).toFloat(), (scaledBitmap.height/2).toFloat());
         val rotatedBmp: Bitmap = Bitmap.createBitmap(
             scaledBitmap,
             0,
